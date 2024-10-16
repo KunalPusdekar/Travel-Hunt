@@ -10,13 +10,30 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  fullName: {
+    type: String,
+    default: '',  // Users can fill this later through the update details route
+  },
+  email: {
+    type: String,
+    default: '',  // Users can fill this later through the update details route
+  },
   city: {
     type: String,
-    required: true,  // Assuming each user has a city
+    default: '',  // The living location of the user
+  },
+  age: {
+    type: Number,
+    default: null,
+  },
+  gender: {
+    type: String,
+    enum: ['Male', 'Female', 'Other'],
+    default: 'Other',
   },
   totalPoints: {
     type: Number,
-    default: 0,  // Overall points (challenges + quizzes + location-based points)
+    default: 0,  // Total points from quests, challenges, and quizzes
   },
   locationsTraveled: [
     {
@@ -30,11 +47,32 @@ const userSchema = new mongoose.Schema({
       },
       pointsEarned: {
         type: Number,
-        default: 0,  // Points earned by the user at this location
+        default: 0,  // Points earned at this location
       },
       visitedAt: {
         type: Date,
         default: Date.now,
+      },
+    },
+  ],
+  questsCompleted: [
+    {
+      questId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quest',
+      },
+      status: {
+        type: String,
+        enum: ['in-progress', 'completed', 'failed'],
+        default: 'in-progress',
+      },
+      completedAt: {
+        type: Date,
+        default: null,
+      },
+      pointsEarned: {
+        type: Number,
+        default: 0,
       },
     },
   ],

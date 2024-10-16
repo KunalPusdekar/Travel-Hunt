@@ -1,4 +1,4 @@
-1]  http://localhost:5000/api/auth/signup
+1] POST http://localhost:5000/api/auth/signup
 {
   "username":"user1",
   "password":"user1"
@@ -16,7 +16,11 @@ response:
     }
 }
 
-2]  http://localhost:5000/api/image/check-similarity
+2] POST http://localhost:5000/api/auth/login
+
+-- same as signup
+
+3] POST http://localhost:5000/api/image/check-similarity
 Bearer Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 form-data:
 referenceImageUrl: https://res.cloudinary.com/dejzfm6op/image/upload/v1729061683/sevenSisterHill_1_azbuld.jpg
@@ -29,3 +33,45 @@ response:
     "similarityScore": 75.88
 }
 
+4] PUT http://localhost:5000/api/user/update
+Bearer Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+raw:
+{
+  "fullName": "John Doe",
+  "email": "john@example.com",
+  "city": "Nagpur",
+  "age": 25,
+  "gender": "Male"
+}
+
+response:
+{
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "username": "user3",
+    "city": "Nagpur",
+    "locationsTraveled": [],
+    "age": 25,
+    "gender": "Male",
+    "totalPoints": 0,
+    "challengesCompleted": [],
+    "quizzesCompleted": []
+}
+
+5] GET http://localhost:5000/api/user/profile
+Bearer Token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+response:
+{
+    "fullName": "John Doe",
+    "email": "john@example.com",
+    "username": "user3",
+    "city": "Nagpur",
+    "locationsTraveled": [],
+    "age": 25,
+    "gender": "Male",
+    "totalPoints": 0,
+    "challengesCompleted": [],
+    "quizzesCompleted": []
+} 
