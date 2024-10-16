@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Animated, TouchableOpacity } from 'react-native';
 import LottieView from 'lottie-react-native';
-import * as Animatable from 'react-native-animatable';  // Animatable Import
-import { MotiView } from 'moti';  // Moti Import
-import { Canvas, Circle } from '@shopify/react-native-skia';  // Skia Import
+import * as Animatable from 'react-native-animatable'; // Animatable Import
+import { MotiView } from 'moti'; // Moti Import
+import { Canvas, Circle } from '@shopify/react-native-skia'; // Skia Import
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const challenges = [
   { id: '1', title: 'Photo Quest: Capture the Hidden Waterfall', progress: 50 },
@@ -13,14 +14,15 @@ const challenges = [
 
 const ChallengeItem = ({ title, index, progress }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
-  const scale = useRef(new Animated.Value(1)).current; 
-  const [pressed, setPressed] = useState(false); 
+  const scale = useRef(new Animated.Value(1)).current;
+  const [pressed, setPressed] = useState(false);
+  const navigation = useNavigation(); // Use useNavigation
 
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
       duration: 500,
-      delay: index * 200, 
+      delay: index * 200,
       useNativeDriver: true,
     }).start();
   }, [animatedValue, index]);
@@ -28,41 +30,39 @@ const ChallengeItem = ({ title, index, progress }) => {
   const onPress = () => {
     Animated.sequence([
       Animated.timing(scale, {
-        toValue: 1.2, 
+        toValue: 1.2,
         duration: 100,
         useNativeDriver: true,
       }),
       Animated.timing(scale, {
-        toValue: 1, 
+        toValue: 1,
         duration: 100,
         useNativeDriver: true,
       }),
     ]).start();
-    setPressed(!pressed); 
+    setPressed(!pressed);
+
+    // Navigate to the SelfieUploadScreen if this is the Photo Quest challenge
+    if (title === 'Photo Quest: Capture the Hidden Waterfall') {
+      navigation.navigate('SelfieUploadScreen');
+    }
   };
-
-  const itemScale = animatedValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.8, 1],
-  });
-
-  const opacity = animatedValue;
 
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
       {/* Animatable View for bounce effect on press */}
       <Animatable.View animation="fadeInUp" duration={1000}>
         <MotiView
-          from={{ opacity: 0, translateY: 20 }} 
-          animate={{ opacity: 1, translateY: 0 }} 
+          from={{ opacity: 0, translateY: 20 }}
+          animate={{ opacity: 1, translateY: 0 }}
           transition={{ type: 'timing', duration: 500 }}
         >
-          <Animated.View style={{ ...styles.challenge, transform: [{ scale: itemScale }, { scale }], opacity }}>
+          <Animated.View style={{ ...styles.challenge, transform: [{ scale }], opacity: animatedValue }}>
             <Text style={styles.challengeText}>{title}</Text>
             <View style={styles.progressBarContainer}>
               <Animated.View style={[styles.progressBar, { width: `${progress}%` }]} />
             </View>
-            {pressed && <Text style={styles.progressText}>Progress: {progress}%</Text>} 
+            {pressed && <Text style={styles.progressText}>Progress: {progress}%</Text>}
           </Animated.View>
         </MotiView>
       </Animatable.View>
@@ -71,8 +71,8 @@ const ChallengeItem = ({ title, index, progress }) => {
 };
 
 export default function ChallengesScreen() {
-  const scrollY = useRef(new Animated.Value(0)).current; 
-  const bounceAnim = useRef(new Animated.Value(1)).current; 
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(1)).current;
   const parallaxAnim = scrollY.interpolate({
     inputRange: [0, 200],
     outputRange: [0, -30],
@@ -101,7 +101,7 @@ export default function ChallengesScreen() {
     <View style={styles.container}>
       {/* Background Animation */}
       <LottieView
-        source={require('../../assets/animations/background-animation.json')} 
+        source={require('../../assets/animations/background-animation.json')}
         autoPlay
         loop
         style={styles.backgroundAnimation}
@@ -110,7 +110,7 @@ export default function ChallengesScreen() {
       {/* Character Animation with Parallax Effect */}
       <Animated.View style={{ transform: [{ translateY: parallaxAnim }, { scale: bounceAnim }] }}>
         <LottieView
-          source={require('../../assets/animations/character-animation.json')} 
+          source={require('../../assets/animations/character-animation.json')}
           autoPlay
           loop
           style={styles.characterAnimation}
@@ -135,7 +135,7 @@ export default function ChallengesScreen() {
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: true }
         )}
-        contentContainerStyle={{ paddingBottom: 100 }} 
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
     </View>
   );
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: -1, 
+    zIndex: -1,
   },
   progressBarContainer: {
     height: 6,
