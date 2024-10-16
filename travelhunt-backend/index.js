@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const imageRoutes = require('./routes/image');
 const userProfileRoutes = require('./routes/userProfile');
+const locationRoutes = require('./routes/hiddenLocations');
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use('/api/auth', authRoutes);
 // Image similarity route
 app.use('/api/image', imageRoutes);
 app.use('/api/user', userProfileRoutes);
+app.use('/api/locations', locationRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
