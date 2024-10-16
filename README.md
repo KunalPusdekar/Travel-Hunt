@@ -41,8 +41,8 @@ To deploy the application locally using docker, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-team-repo/manipal-hackathon-2024.git
-    cd manipal-hackathon-2024
+    git clone https://github.com/ManipalHackathon2024/TechNomads.git
+    cd travelhunt
     ```
 
 1. Build the docker image
@@ -72,8 +72,8 @@ Follow these steps to run the project locally:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-team-repo/manipal-hackathon-2024.git
-    cd manipal-hackathon-2024
+    git clone https://github.com/ManipalHackathon2024/TechNomads.git
+    cd travelhunt
     ```
 
 1. Install dependencies
@@ -85,7 +85,7 @@ Follow these steps to run the project locally:
 1. Start server
 
     ```bash
-    npm run start
+    npm start
     ```
 
-1. Access the application at http://localhost:3000
+1. Access the application at Expo Go mobile app
