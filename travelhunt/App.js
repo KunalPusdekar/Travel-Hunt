@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import LandingScreen from './src/screens/LandingScreen'; // Correct path
-// import HomeScreen from './src/screens/HomeScreen'; // Correct path
-// import MapScreen from './src/screens/MapScreen'; // Correct path
-// import ProfileScreen from './src/screens/ProfileScreen'; // Correct path
-// import ChallengesScreen from './src/screens/ChallengesScreen'; // Correct path
-// import EditProfileScreen from './src/screens/EditProfileScreen'; // Correct path for the edit profile screen
+import AuthNavigator from './src/navigation/AuthNavigator'; // Import AuthNavigator
+import HomeScreen from './src/screens/HomeScreen'; // Ensure correct paths
+import MapScreen from './src/screens/MapScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import ChallengesScreen from './src/screens/ChallengesScreen';
+import EditProfileScreen from './src/screens/EditProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
-import ErrorBoundary from './src/components/ErrorBoundary';
 
-// Stack navigator for screens
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Main Tabs
+// Main Tabs for authenticated users
 function MainTabs() {
   return (
     <Tab.Navigator
@@ -31,12 +29,12 @@ function MainTabs() {
           } else if (route.name === 'Profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
-          return <Ionicons name={iconName} size={30} color={color} />; // Icon size set to 30
+          return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#56CCF2', // Customize active icon color
-        inactiveTintColor: 'gray', // Customize inactive icon color
+        activeTintColor: '#56CCF2',
+        inactiveTintColor: 'gray',
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -58,14 +56,17 @@ function ProfileStack() {
 }
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Simulated authentication state
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Initial screen (Landing Screen) */}
-        <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
-        
-        {/* Main Tabs: Home, Map, Challenges, Profile */}
-        <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
+        {/* Conditional Navigation based on isAuthenticated */}
+        {isAuthenticated ? (
+          <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
