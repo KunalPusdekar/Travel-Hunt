@@ -122,34 +122,43 @@ const styles = StyleSheet.create({
   },
   podiumContainer: {
     flexDirection: "row",
-    justifyContent: "space-between", // Use space-between for direct spacing
+    justifyContent: "center", // Centering all podiums
     alignItems: "flex-end",
     marginTop: -20,
   },
+
   podiumPosition1: {
     alignItems: "center",
     marginBottom: 20,
     backgroundColor: "#FFD700",
     padding: 15,
     borderRadius: 10,
-    width: width * 0.25,
+    flex: 1, // Allow to grow
+    maxWidth: width * 0.3, // Restrict max width
   },
+
   podiumPosition2: {
     alignItems: "center",
     backgroundColor: "#B3B3B3",
     padding: 15,
     borderRadius: 10,
-    width: width * 0.2,
+    flex: 1, // Allow to grow
+    maxWidth: width * 0.25, // Restrict max width
     marginBottom: 10,
+    marginRight: 10,
   },
+
   podiumPosition3: {
     alignItems: "center",
     backgroundColor: "#CD7F32",
     padding: 15,
     borderRadius: 10,
-    width: width * 0.2,
+    flex: 1, // Allow to grow
+    maxWidth: width * 0.25, // Restrict max width
     marginBottom: 10,
+    marginLeft: 10,
   },
+
   podiumImage: {
     width: 60,
     height: 80,
