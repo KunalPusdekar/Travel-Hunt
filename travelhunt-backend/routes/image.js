@@ -3,9 +3,10 @@ const router = express.Router();
 const cloudinary = require('../config/cloudinary');
 const upload = require('../middleware/upload');
 const compareImages = require('../utils/compareImages');
+const { verifyToken } = require('../middleware/auth');
 
 // Image similarity check endpoint
-router.post('/check-similarity', upload.single('uploadedImage'), async (req, res) => {
+router.post('/check-similarity',verifyToken, upload.single('uploadedImage'), async (req, res) => {
   try {
     const { referenceImageUrl } = req.body;
 
