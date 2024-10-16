@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet, Image,
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import { Svg, Path } from 'react-native-svg';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 // Predefined badge images mapping
 const badgeImages = {
@@ -16,6 +17,7 @@ const badgeImages = {
 
 // Define HomeScreen component
 export default function HomeScreen() {
+  const navigation = useNavigation(); // Initialize navigation
   const [searchQuery, setSearchQuery] = useState('');
   const [unlockedLevel, setUnlockedLevel] = useState(1); // Keep track of unlocked levels
   const [showBadgePopup, setShowBadgePopup] = useState(false); // Modal visibility
@@ -28,6 +30,11 @@ export default function HomeScreen() {
       setUnlockedLevel(level); // Unlock the next level
       setBadgeInfo({ level, badgeName }); // Set badge info
       setShowBadgePopup(true); // Show popup when level is unlocked
+
+      // Navigate to Quiz page if Level 3 is unlocked
+      if (level === 3) {
+        navigation.navigate('Quiz'); // Replace 'Quiz' with the name of your quiz screen
+      }
     }
   };
 
@@ -183,43 +190,37 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#2e2e2e',
-    borderRadius: 10,
-    padding: 8,
+    backgroundColor: '#2a2a2a',
+    borderRadius: 5,
     marginBottom: 20,
+    padding: 5,
   },
   searchIcon: {
-    marginRight: 10,
+    marginRight: 5,
   },
   searchInput: {
     flex: 1,
     color: '#FFAB40',
   },
   levelsContainer: {
-    marginBottom: 30,
-    alignItems: 'center',
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 22,
     color: '#FFAB40',
-    fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   levelRow: {
-    alignItems: 'center',
-    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10,
   },
   levelButton: {
     width: 80,
     height: 80,
-    borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  levelText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    borderRadius: 40,
   },
   unlocked: {
     backgroundColor: '#FFAB40',
@@ -227,45 +228,44 @@ const styles = StyleSheet.create({
   locked: {
     backgroundColor: '#333',
   },
+  levelText: {
+    color: '#fff',
+    fontSize: 18,
+  },
   line: {
-    marginBottom: 10,
+    alignSelf: 'center',
   },
   section: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
   squareButton: {
-    width: '48%',
-    backgroundColor: '#FFAB40',
-    borderRadius: 10,
-    padding: 15,
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#2a2a2a',
+    borderRadius: 5,
   },
   buttonImage: {
-    width: 40,
-    height: 40,
-    marginBottom: 10,
+    width: 50,
+    height: 50,
+    marginBottom: 5,
   },
   buttonText: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
+    color: '#FFAB40',
+    textAlign: 'center',
   },
   culturalContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
+    justifyContent: 'space-around',
   },
   culturalButton: {
     alignItems: 'center',
-    backgroundColor: '#333',
-    borderRadius: 10,
-    padding: 10,
-    flex: 1,
-    margin: 5,
+    margin: 10,
   },
   culturalText: {
     color: '#FFAB40',
@@ -274,29 +274,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
     width: '80%',
-    backgroundColor: '#2e2e2e',
-    padding: 20,
+    backgroundColor: '#fff',
     borderRadius: 10,
+    padding: 20,
     alignItems: 'center',
   },
   modalTitle: {
     fontSize: 24,
-    color: '#FFAB40',
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   modalMessage: {
     fontSize: 16,
-    color: '#fff',
-    textAlign: 'center',
-    marginVertical: 10,
+    marginBottom: 20,
   },
   badgeImage: {
     width: 100,
     height: 100,
-    marginVertical: 10,
+    marginBottom: 10,
   },
 });
