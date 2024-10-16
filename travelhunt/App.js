@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AuthNavigator from './src/navigation/AuthNavigator'; // Import AuthNavigator
-import HomeScreen from './src/screens/HomeScreen'; // Ensure correct paths
-import MapScreen from './src/screens/MapScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
-import ChallengesScreen from './src/screens/ChallengesScreen';
-import EditProfileScreen from './src/screens/EditProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native'; // For Profile button
+import LandingScreen from './src/screens/LandingScreen'; // Correct path
+import HomeScreen from './src/screens/HomeScreen'; // Correct path
+import MapScreen from './src/screens/MapScreen'; // Correct path
+import ChallengesScreen from './src/screens/ChallengesScreen'; // Correct path
+import ProfileScreen from './src/screens/ProfileScreen'; // Correct path
+import EditProfileScreen from './src/screens/EditProfileScreen'; // Correct path
+import LeaderboardScreen from './src/screens/LeaderboardScreen'; // Correct path
 
+// Stack and Tab navigators
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Main Tabs for authenticated users
-function MainTabs() {
+// Main Tabs (without Profile, but added Leaderboard)
+function MainTabs({ navigation }) {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -26,47 +29,60 @@ function MainTabs() {
             iconName = focused ? 'map' : 'map-outline';
           } else if (route.name === 'Challenges') {
             iconName = focused ? 'trophy' : 'trophy-outline';
-          } else if (route.name === 'Profile') {
-            iconName = focused ? 'person' : 'person-outline';
+          } else if (route.name === 'Leaderboard') {
+            iconName = focused ? 'podium' : 'podium-outline';
           }
-          return <Ionicons name={iconName} size={30} color={color} />;
+          return <Ionicons name={iconName} size={30} color={color} />; // Icon size set to 30
+        },
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+            <Ionicons name="person-outline" size={30} color="white" style={{ marginRight: 15 }} />
+          </TouchableOpacity>
+        ),
+        headerStyle: {
+          backgroundColor: 'black', // Set top header background color to black
+        },
+        headerTintColor: 'white', // Set back button color to white
+        tabBarShowLabel: false, // Remove text labels from the bottom tab
+        tabBarStyle: {
+          backgroundColor: 'black', // Set bottom tab background color to black
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#56CCF2',
-        inactiveTintColor: 'gray',
+        activeTintColor: 'white', // Set active icon color to white
+        inactiveTintColor: 'gray', // Set inactive icon color to gray
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Challenges" component={ChallengesScreen} />
-      <Tab.Screen name="Profile" component={ProfileStack} />
+      <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
     </Tab.Navigator>
   );
 }
 
-// Profile stack to include Profile and EditProfile screens
+// Profile stack (includes Profile and Edit Profile screens)
 function ProfileStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile', headerStyle: { backgroundColor: 'black' }, headerTintColor: 'white' }} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile', headerStyle: { backgroundColor: 'black' }, headerTintColor: 'white' }} />
     </Stack.Navigator>
   );
 }
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Simulated authentication state
-
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* Conditional Navigation based on isAuthenticated */}
-        {isAuthenticated ? (
-          <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
-        )}
+        {/* Initial screen (Landing Screen) */}
+        <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+        
+        {/* Main Tabs: Home, Map, Challenges, Leaderboard */}
+        <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
+        
+        {/* Profile Stack: Profile and EditProfile screens */}
+        <Stack.Screen name="Profile" component={ProfileStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

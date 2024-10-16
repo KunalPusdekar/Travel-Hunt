@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import LandingScreen from '../screens/LandingScreen';  // Replace with actual paths to your screens
-import LoginScreen from '../screens/LoginScreen';
-import SignupScreen from '../screens/SignupScreen';
+import LandingScreen from '../../screens/LandingScreen';  // Replace with actual paths to your screens
+import LoginScreen from '../../screens/LoginScreen';
+import SignupScreen from '../../screens/SignupScreen';
 
 const Stack = createStackNavigator();
 
