@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, Button } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Video } from 'expo-av';  // Import Expo's Video component
@@ -6,7 +6,6 @@ import { Video } from 'expo-av';  // Import Expo's Video component
 export default function MapScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const mapRef = useRef(null);  // Create a reference to the MapView
 
   // Define locations around Varanasi
   const locations = [
@@ -47,24 +46,12 @@ export default function MapScreen() {
   const onMarkerPress = (location) => {
     setSelectedLocation(location);
     setModalVisible(true);
-
-    // Animate the map to the selected location
-    mapRef.current.animateToRegion({
-      latitude: location.latitude,
-      longitude: location.longitude,
-      latitudeDelta: 0.05,
-      longitudeDelta: 0.02,
-    }, 1000);  // The second parameter is the animation duration in milliseconds
   };
 
   return (
     <View style={styles.container}>
       {/* Map View */}
-      <MapView
-        ref={mapRef}  // Attach the ref to the MapView
-        style={styles.map}
-        initialRegion={initialRegion}
-      >
+      <MapView style={styles.map} initialRegion={initialRegion}>
         {locations.map((location) => (
           <Marker
             key={location.id}
