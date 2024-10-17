@@ -7,12 +7,19 @@ import { Canvas, Circle } from '@shopify/react-native-skia'; // Skia Import
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const challenges = [
-  { id: '1', title: 'Photo Quest: Capture the Hidden Waterfall', progress: 50 },
-  { id: '2', title: 'Cultural Task: Attend a Local Festival', progress: 70 },
-  { id: '3', title: 'Explorer: Visit 5 New Locations', progress: 30 },
+  { id: '1', title: 'Photo Quest: Capture the Hidden Waterfall', progress: 50, sustainability: false },
+  { id: '2', title: 'Cultural Task: Attend a Local Festival', progress: 70, sustainability: false },
+  { id: '3', title: 'Explorer: Visit 5 New Locations', progress: 30, sustainability: false },
+  { id: '4', title: 'Culinary Adventure: Try a Local Cuisine', progress: 60, sustainability: false },
+  { id: '5', title: 'Local Life: Talk to a Local About Their Life', progress: 80, sustainability: false },
+  { id: '6', title: 'Learn a Local Slang Word', progress: 40, sustainability: false },
+  { id: '7', title: 'Sustainability Check: Have You Cleaned the Environment?', progress: 50, sustainability: true },
+  { id: '8', title: 'Recycling Engagement: Have You Contacted a Local Recycling Person?', progress: 70, sustainability: true },
+  { id: '9', title: 'Plastic Reduction: Are You Reducing Plastic Use?', progress: 30, sustainability: true },
+  { id: '10', title: 'Support Local: Do You Support Local Sustainable Businesses?', progress: 60, sustainability: true },
 ];
 
-const ChallengeItem = ({ title, index, progress }) => {
+const ChallengeItem = ({ title, index, progress, sustainability }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(1)).current;
   const [pressed, setPressed] = useState(false);
@@ -57,7 +64,7 @@ const ChallengeItem = ({ title, index, progress }) => {
           animate={{ opacity: 1, translateY: 0 }}
           transition={{ type: 'timing', duration: 500 }}
         >
-          <Animated.View style={{ ...styles.challenge, transform: [{ scale }], opacity: animatedValue }}>
+          <Animated.View style={[styles.challenge, sustainability ? styles.sustainabilityMargin : null, { transform: [{ scale }], opacity: animatedValue }]}>
             <Text style={styles.challengeText}>{title}</Text>
             <View style={styles.progressBarContainer}>
               <Animated.View style={[styles.progressBar, { width: `${progress}%` }]} />
@@ -129,7 +136,7 @@ export default function ChallengesScreen() {
         data={challenges}
         keyExtractor={(item) => item.id}
         renderItem={({ item, index }) => (
-          <ChallengeItem title={item.title} index={index} progress={item.progress} />
+          <ChallengeItem title={item.title} index={index} progress={item.progress} sustainability={item.sustainability} />
         )}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -152,6 +159,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 20,
+    textAlign: 'center',
     color: '#2F4F4F', // Dark Slate Gray
   },
   challenge: {
@@ -163,6 +171,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
+  },
+  sustainabilityMargin: {
+    borderLeftWidth: 10,
+    borderLeftColor: '#4CAF50', // Green color for sustainability challenges
   },
   challengeText: {
     fontSize: 18,
