@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,6 +16,9 @@ import Level1Screen from './src/screens/Level1Screen';
 import Level2Screen from './src/screens/Level2Screen';
 import Level3Screen from './src/screens/Level3Screen';
 import Level4Screen from './src/screens/Level4Screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoginScreen from './src/screens/Auth/LoginScreen';
+import SignupScreen from './src/screens/Auth/SignupScreen';
 
 // Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -91,9 +94,26 @@ function ProfileStack() {
 
 // Main App Component
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Check if the user is authenticated when the app starts
+  useEffect(() => {
+      const checkAuthStatus = async () => {
+          const token = await AsyncStorage.getItem('token');
+          if (token) {
+              setIsAuthenticated(true);
+          }
+      };
+      checkAuthStatus();
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={isAuthenticated ? 'Landing' : 'Login'}>
+        {/* Authentication Screens */}
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Signup" component={SignupScreen} />
+
+        {/* Protected Screens */}
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />

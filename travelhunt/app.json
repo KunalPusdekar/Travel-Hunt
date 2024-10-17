@@ -4,6 +4,12 @@
     "slug": "travelapp",
     "version": "1.0.0",
     "orientation": "portrait",
+    "permissions": [
+      "LOCATION",
+      "MEDIA_LIBRARY",
+      "CAMERA",
+      "STORAGE"
+    ],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",

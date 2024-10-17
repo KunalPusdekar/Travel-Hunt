@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF9F6',  // Off-White background
+    backgroundColor: '#212121',  // Off-White background
   },
   animation: {
     width: 300,
