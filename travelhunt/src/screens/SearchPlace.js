@@ -11,12 +11,12 @@ const SearchPlace = () => {
     const navigation = useNavigation();
 
     const places = [
-        { id: '1', name: 'New York' },
-        { id: '2', name: 'Los Angeles' },
-        { id: '3', name: 'Chicago' },
-        { id: '4', name: 'Houston' },
-        { id: '5', name: 'Phoenix' },
-        { id: '6', name: 'Philadelphia' },
+        { id: '1', name: 'Shimla' },
+        { id: '2', name: 'Varanasi' },
+        { id: '3', name: 'Agra' },
+        { id: '4', name: 'Nagpur' },
+        { id: '5', name: 'Mumbai' },
+        { id: '6', name: 'Jammu' },
     ];
 
     const filteredPlaces = places.filter((place) =>

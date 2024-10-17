@@ -16,8 +16,8 @@ const userData = {
   countriesVisited: 15,
   profilePhoto: require('../../assets/profile.jpg'),
   experiences: [
-    { id: '1', title: 'Hiked the Himalayas', challenge: 'Completed a 7-day trek.', details: 'The trek included stunning views of snow-capped peaks and visits to local villages.' },
-    { id: '2', title: 'Cultural Immersion in Japan', challenge: 'Participated in a tea ceremony.', details: 'I learned about the history and significance of tea in Japanese culture.' },
+    { id: '1', title: 'Hiked the Himalayas', challenge: 'Completed a 7-day trek.', details: 'The trek included stunning views of snow-capped peaks and visits to local villages. Checkout the @TravelHunt app now.' },
+    { id: '2', title: 'Cultural Immersion in Japan', challenge: 'Participated in a tea ceremony.', details: 'I learned about the history and significance of tea in Japanese culture. Checkout the @TravelHunt app now.' },
   ],
 };
 
@@ -90,7 +90,7 @@ const ProfileScreen = () => {
     if (selectedBadge) {
       try {
         await Share.share({
-          message: `I just earned the "${selectedBadge.title}" badge! 🎉 Check out my travel adventures!`,
+          message: `I just earned the "${selectedBadge.title}" badge! 🎉 Check out my travel adventures! Checkout the @TravelHunt app now.`,
         });
       } catch (error) {
         alert(error.message);
