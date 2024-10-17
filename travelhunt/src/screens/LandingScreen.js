@@ -58,6 +58,12 @@ export default function LandingScreen({ navigation }) {
           <Text style={styles.TravellerButtonText}>Traveller Entry</Text>
 
         </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => navigation.navigate('Main')}
+        activeOpacity={0.7}  // Slight opacity change when pressed
+        style={styles.buttonContainer}
+      >
         <LinearGradient
           colors={['#F8B400', '#FF6F61']}  // Sand Yellow to Coral Pink gradient
           start={{ x: 0, y: 0 }}
