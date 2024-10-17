@@ -15,6 +15,7 @@ import SelfieUploadScreen from './src/screens/SelfieUploadScreen';
 import Level1Screen from './src/screens/Level1Screen';
 import Level2Screen from './src/screens/Level2Screen';
 import Level3Screen from './src/screens/Level3Screen';
+import SustainabilityScreen from './src/screens/SustainabilityScreen';
 import Level4Screen from './src/screens/Level4Screen';
 import MyTrips from './src/screens/MyTrips';
 import SearchPlace from './src/screens/SearchPlace'; // Add the import for SearchPlace
@@ -29,7 +30,7 @@ const Tab = createBottomTabNavigator();
 // Main Tabs
 function MainTabs() {
   return (
-    
+
     <Tab.Navigator
       screenOptions={({ route, navigation }) => ({
         tabBarIcon: ({ focused, color }) => {
@@ -81,7 +82,7 @@ function ProfileStack() {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ 
+        options={{
           title: 'Profile',
           headerShown: false, // Hide the header for the Profile screen
         }}
@@ -105,13 +106,14 @@ export default function App() {
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MyTrip" component={MyTrips} options={{ title: 'My Trips' }} />
 
-        <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ title: 'Search Place' }} /> 
+        <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ title: 'Search Place' }} />
         <Stack.Screen name="SelectTraveler" component={SelectTraveler} />
         <Stack.Screen name="SelectDates" component={SelectDates}  options={{ title: 'Select Dates' }} />
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />
+        <Stack.Screen name="SustainabilityScreen" component={SustainabilityScreen} options={{ title: 'SustainabilityScreen' }} />
         <Stack.Screen name="Level1Screen" component={Level1Screen} options={{ title: 'Level 1' }} />
         <Stack.Screen name="Level2Screen" component={Level2Screen} options={{ title: 'Level 2' }} />
         <Stack.Screen name="Level3Screen" component={Level3Screen} options={{ title: 'Level 3' }} />
