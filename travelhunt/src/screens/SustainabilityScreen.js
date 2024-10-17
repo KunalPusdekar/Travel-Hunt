@@ -11,10 +11,10 @@ const SustainabilityScreen = ({ navigation }) => {
 
   const handleSubmit = () => {
     console.log({
-      name,
-      contactNumber,
+      name,//local
+      contactNumber,//local
       taskCompleted,
-      contactedAuthority,
+      contactedAuthority, //bool
       review,
     });
     // Set progress to 100 (implement your logic here)
