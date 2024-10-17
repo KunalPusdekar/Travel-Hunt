@@ -15,7 +15,7 @@ export default function MapScreen() {
       description: 'One of the most famous Hindu temples dedicated to Lord Shiva.',
       latitude: 25.3109,
       longitude: 83.0076,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
     },
     {
       id: 2,
@@ -23,7 +23,7 @@ export default function MapScreen() {
       description: 'An important Buddhist site where Gautama Buddha gave his first sermon.',
       latitude: 25.3763,
       longitude: 83.0220,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
     },
     {
       id: 3,
@@ -31,7 +31,7 @@ export default function MapScreen() {
       description: 'One of the main ghats on the Ganges River, famous for its Ganga Aarti.',
       latitude: 25.3076,
       longitude: 83.0104,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
     },
   ];
 

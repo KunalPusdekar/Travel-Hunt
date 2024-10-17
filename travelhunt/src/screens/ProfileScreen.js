@@ -378,6 +378,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: 'center',
   },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#2F4F4F',
+  },
+
 });
 
 export default ProfileScreen;

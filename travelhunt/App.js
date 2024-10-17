@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 function MainTabs() {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, navigation }) => ({
         tabBarIcon: ({ focused, color }) => {
           let iconName;
           if (route.name === 'HomeScreen') {
@@ -39,9 +39,9 @@ function MainTabs() {
           }
           return <Ionicons name={iconName} size={30} color={color} />;
         },
-        headerRight: ({ navigation }) => (
+        headerRight: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => navigation.navigate('Profile')}  // Use navigation from the screenOptions function
             accessibilityLabel="Go to Profile"
             accessibilityHint="Navigate to your profile screen"
           >
@@ -66,6 +66,7 @@ function MainTabs() {
   );
 }
 
+
 // Profile stack
 function ProfileStack() {
   return (
@@ -73,7 +74,10 @@ function ProfileStack() {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-        options={{ title: 'Profile', headerStyle: { backgroundColor: 'black' }, headerTintColor: 'white' }}
+        options={{ 
+          title: 'Profile',
+          headerShown: false, // Hide the header for the Profile screen
+        }}
       />
       <Stack.Screen
         name="EditProfile"
@@ -84,6 +88,7 @@ function ProfileStack() {
   );
 }
 
+
 // Main App Component
 export default function App() {
   return (
@@ -92,6 +97,7 @@ export default function App() {
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />
+        <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />
         <Stack.Screen name="Level1Screen" component={Level1Screen} options={{ title: 'Level 1' }} />
         <Stack.Screen name="Level2Screen" component={Level2Screen} options={{ title: 'Level 2' }} />
