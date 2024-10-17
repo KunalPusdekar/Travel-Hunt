@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet, Image, Modal, Button } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Image, Modal, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import { Svg, Path } from 'react-native-svg';
@@ -17,7 +17,7 @@ const badgeImages = {
 // Reusable LevelButton Component
 const LevelButton = ({ level, unlockedLevel, handleLevelUnlock, badgeName, navigation, screen }) => {
   const isUnlocked = unlockedLevel >= level;
-  const isCurrentLevel = unlockedLevel  === level;
+  const isCurrentLevel = unlockedLevel === level;
 
   return (
     <View style={styles.levelRow}>
@@ -33,9 +33,9 @@ const LevelButton = ({ level, unlockedLevel, handleLevelUnlock, badgeName, navig
         <TouchableOpacity
           disabled={!isUnlocked}
           onPress={() => {
-            handleLevelUnlock(level + 1, badgeName);
             if (isUnlocked) {
               navigation.navigate(screen); // Navigate to specific screen
+              handleLevelUnlock(level + 1, badgeName); // Unlock the next level
             }
           }}
         >
@@ -48,7 +48,6 @@ const LevelButton = ({ level, unlockedLevel, handleLevelUnlock, badgeName, navig
 
 // Define HomeScreen component
 export default function HomeScreen() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [unlockedLevel, setUnlockedLevel] = useState(1); // Keep track of unlocked levels
   const [showBadgePopup, setShowBadgePopup] = useState(false); // Modal visibility
   const [badgeInfo, setBadgeInfo] = useState({ level: 1, badgeName: 'Explorer' }); // Badge information
@@ -57,8 +56,7 @@ export default function HomeScreen() {
 
   // Function to handle level unlocking
   const handleLevelUnlock = (level, badgeName) => {
-    if (unlockedLevel >= level) return; // Already unlocked or next level ready
-    if (unlockedLevel + 1 === level) {
+    if (unlockedLevel < level) {
       setUnlockedLevel(level); // Unlock the next level
       setBadgeInfo({ level, badgeName }); // Set badge info
       setShowBadgePopup(true); // Show popup when level is unlocked
@@ -67,18 +65,6 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Search Bar */}
-      {/* <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#FFAB40" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search Locations & Users"
-          placeholderTextColor="#FFAB40"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-      </View> */}
-
       {/* Levels Section */}
       <View style={styles.levelsContainer}>
         <Text style={styles.sectionTitle}>Start Journey!!!</Text>
@@ -128,12 +114,10 @@ export default function HomeScreen() {
           navigation={navigation}
           screen="Level4Screen" // Navigate to Level 4 screen
         />
-
-        {/* Add more levels similarly */}
       </View>
 
       {/* Badge Popup Modal */}
-      <Modal visible={showBadgePopup} transparent={true} animationType="slide">
+      {/* <Modal visible={showBadgePopup} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <Animatable.View animation="zoomIn" style={styles.modalContent}>
             <Text style={styles.modalTitle}>Congratulations!</Text>
@@ -144,7 +128,7 @@ export default function HomeScreen() {
             <Button title="Close" onPress={() => setShowBadgePopup(false)} />
           </Animatable.View>
         </View>
-      </Modal>
+      </Modal> */}
     </ScrollView>
   );
 }
@@ -155,21 +139,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1a1a1a',
     padding: 10,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#2e2e2e',
-    borderRadius: 10,
-    padding: 8,
-    marginBottom: 20,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    color: '#FFAB40',
   },
   levelsContainer: {
     marginBottom: 30,
@@ -198,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   unlocked: {
-    backgroundColor: 'green',
+    backgroundColor: 'lightgreen',
   },
   locked: {
     backgroundColor: '#333',

@@ -11,12 +11,11 @@ import ChallengesScreen from './src/screens/ChallengesScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import LeaderboardScreen from './src/screens/LeaderboardScreen';
-import SelfieUploadScreen from './src/screens/SelfieUploadScreen'; // Correct path
-import Level1Screen from './src/screens/Level1Screen'; // Correct path
-import Level2Screen from './src/screens/Level2Screen'; // Correct path
-import Level3Screen from './src/screens/Level3Screen'; // Correct path
-import Level4Screen from './src/screens/Level4Screen'; // Correct path
-
+import SelfieUploadScreen from './src/screens/SelfieUploadScreen';
+import Level1Screen from './src/screens/Level1Screen';
+import Level2Screen from './src/screens/Level2Screen';
+import Level3Screen from './src/screens/Level3Screen';
+import Level4Screen from './src/screens/Level4Screen';
 
 // Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -29,7 +28,7 @@ function MainTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
           let iconName;
-          if (route.name === 'Home') {
+          if (route.name === 'HomeScreen') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Map') {
             iconName = focused ? 'map' : 'map-outline';
@@ -53,13 +52,13 @@ function MainTabs() {
           backgroundColor: 'black',
         },
         headerTintColor: 'white',
-        tabBarShowLabel: false,
+        tabBarShowLabel: true,
         tabBarStyle: {
-          backgroundColor: 'black',
+          backgroundColor: 'white',
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="HomeScreen" component={HomeScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Challenges" component={ChallengesScreen} />
       <Tab.Screen name="Leaderboard" component={LeaderboardScreen} />
@@ -94,10 +93,10 @@ export default function App() {
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />
-        <Stack.Screen name="Level1" component={Level1Screen} options={{ title: 'Level 1' }} />
-        {/* <Stack.Screen name="Level2" component={Level2Screen} options={{ title: 'Level 2' }} /> */}
+        <Stack.Screen name="Level1Screen" component={Level1Screen} options={{ title: 'Level 1' }} />
+        <Stack.Screen name="Level2Screen" component={Level2Screen} options={{ title: 'Level 2' }} />
         <Stack.Screen name="Level3Screen" component={Level3Screen} options={{ title: 'Level 3' }} />
-        {/* <Stack.Screen name="Level4" component={Level4Screen} options={{ title: 'Level 4' }} /> */}
+        <Stack.Screen name="Level4Screen" component={Level4Screen} options={{ title: 'Level 4' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

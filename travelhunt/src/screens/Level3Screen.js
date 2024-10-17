@@ -1,262 +1,206 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, StatusBar, TouchableOpacity, Modal, Animated, Dimensions } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useRef, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Animated, TouchableOpacity } from 'react-native';
+import LottieView from 'lottie-react-native';
+import * as Animatable from 'react-native-animatable'; // Animatable Import
+import { MotiView } from 'moti'; // Moti Import
+import { Canvas, Circle } from '@shopify/react-native-skia'; // Skia Import
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
-// Constants
-const { width, height } = Dimensions.get('window');
-
-const COLORS = {
-    primary: "#252c4a",
-    secondary: '#1E90FF',
-    accent: '#3498db',
-    success: '#00C851',
-    error: '#ff4444',
-    black: "#171717",
-    white: "#FFFFFF",
-    background: "#252C4A"
-};
-
-const SIZES = {
-    base: 10,
-    width,
-    height
-};
-
-// Quiz Data
-const data = [
-    {
-        question: "What is the name of the famous lake located in Nagpur?",
-        options: ["Futala Lake", "Lagad Dhokla", "Khindsi Lake", "Shivaji Lake"],
-        correct_option: "Futala Lake"
-    },
-    {
-        question: "Which temple in Nagpur is dedicated to Lord Rama?",
-        options: ["Ram Mandir", "Deekshabhoomi", "Shri Ganesh Mandir", "Kachner Jain Temple"],
-        correct_option: "Ram Mandir"
-    },
-    {
-        question: "What is Nagpur known as due to its oranges?",
-        options: ["Orange City", "Fruit City", "Spice City", "Mango City"],
-        correct_option: "Orange City"
-    },
-    {
-        question: "Which historical monument in Nagpur was built during the British rule?",
-        options: ["Sitabuldi Fort", "Nagpur Central Museum", "Rambagh Palace", "Zero Mile"],
-        correct_option: "Sitabuldi Fort"
-    },
-    {
-        question: "What is the name of the largest biodiversity park in Nagpur?",
-        options: ["Futala Biodiversity Park", "Nagpur Biodiversity Park", "Ambazari Park", "Botanical Garden"],
-        correct_option: "Futala Biodiversity Park"
-    }
+const challenges = [
+  { id: '1', title: 'Photo Quest: Capture the Hidden Waterfall', progress: 50 },
+  { id: '2', title: 'Cultural Task: Attend a Local Festival', progress: 70 },
+  { id: '3', title: 'Explorer: Visit 5 New Locations', progress: 30 },
 ];
 
-const Level3Screen = () => {
-    const allQuestions = data;
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [currentOptionSelected, setCurrentOptionSelected] = useState(null);
-    const [correctOption, setCorrectOption] = useState(null);
-    const [isOptionsDisabled, setIsOptionsDisabled] = useState(false);
-    const [score, setScore] = useState(0);
-    const [showNextButton, setShowNextButton] = useState(false);
-    const [showScoreModal, setShowScoreModal] = useState(false);
-    const [progress, setProgress] = useState(new Animated.Value(0));
+const ChallengeItem = ({ title, index, progress }) => {
+  const animatedValue = useRef(new Animated.Value(0)).current;
+  const scale = useRef(new Animated.Value(1)).current;
+  const [pressed, setPressed] = useState(false);
+  const navigation = useNavigation(); // Use useNavigation
 
-    // Validate selected answer
-    const validateAnswer = (selectedOption) => {
-        const correct_option = allQuestions[currentQuestionIndex].correct_option;
-        setCurrentOptionSelected(selectedOption);
-        setCorrectOption(correct_option);
-        setIsOptionsDisabled(true);
-        if (selectedOption === correct_option) {
-            setScore(score + 1);
-        }
-        setShowNextButton(true);
-    };
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 500,
+      delay: index * 200,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue, index]);
 
-    // Handle next button
-    const handleNext = () => {
-        if (currentQuestionIndex === allQuestions.length - 1) {
-            setShowScoreModal(true);
-        } else {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-            resetQuestionState();
-        }
-    };
+  const onPress = () => {
+    Animated.sequence([
+      Animated.timing(scale, {
+        toValue: 1.2,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    setPressed(!pressed);
 
-    // Reset state for the next question
-    const resetQuestionState = () => {
-        setCurrentOptionSelected(null);
-        setCorrectOption(null);
-        setIsOptionsDisabled(false);
-        setShowNextButton(false);
-    };
+    // Navigate to the SelfieUploadScreen if this is the Photo Quest challenge
+    if (title === 'Photo Quest: Capture the Hidden Waterfall') {
+      navigation.navigate('SelfieUploadScreen');
+    }
+  };
 
-    // Restart the quiz
-    const restartQuiz = () => {
-        setShowScoreModal(false);
-        setCurrentQuestionIndex(0);
-        setScore(0);
-        resetQuestionState();
-        Animated.timing(progress, {
-            toValue: 0,
-            duration: 1000,
-            useNativeDriver: false
-        }).start();
-    };
-
-    // Progress animation effect
-    useEffect(() => {
-        Animated.timing(progress, {
-            toValue: currentQuestionIndex,
-            duration: 1000,
-            useNativeDriver: false
-        }).start();
-    }, [currentQuestionIndex]);
-
-    // Interpolating the progress bar width
-    const progressAnim = progress.interpolate({
-        inputRange: [0, allQuestions.length],
-        outputRange: ['0%', '100%']
-    });
-
-    // Render the progress bar
-    const renderProgressBar = () => (
-        <View style={{ width: '100%', height: 20, borderRadius: 20, backgroundColor: '#00000020' }}>
-            <Animated.View style={[{ height: 20, borderRadius: 20, backgroundColor: COLORS.accent }, { width: progressAnim }]} />
-        </View>
-    );
-
-    // Render the question text
-    const renderQuestion = () => (
-        <View style={{ marginVertical: 40 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
-                <Text style={{ color: COLORS.white, fontSize: 20, opacity: 0.6, marginRight: 2 }}>{currentQuestionIndex + 1}</Text>
-                <Text style={{ color: COLORS.white, fontSize: 18, opacity: 0.6 }}>/ {allQuestions.length}</Text>
+  return (
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
+      {/* Animatable View for bounce effect on press */}
+      <Animatable.View animation="fadeInUp" duration={1000}>
+        <MotiView
+          from={{ opacity: 0, translateY: 20 }}
+          animate={{ opacity: 1, translateY: 0 }}
+          transition={{ type: 'timing', duration: 500 }}
+        >
+          <Animated.View style={{ ...styles.challenge, transform: [{ scale }], opacity: animatedValue }}>
+            <Text style={styles.challengeText}>{title}</Text>
+            <View style={styles.progressBarContainer}>
+              <Animated.View style={[styles.progressBar, { width: `${progress}%` }]} />
             </View>
-            <Text style={{ color: COLORS.white, fontSize: 30 }}>
-                {allQuestions[currentQuestionIndex]?.question}
-            </Text>
-        </View>
-    );
-
-    // Render the answer options
-    const renderOptions = () => (
-        <View>
-            {allQuestions[currentQuestionIndex]?.options.map((option, index) => (
-                <TouchableOpacity
-                    key={index}
-                    onPress={() => validateAnswer(option)}
-                    disabled={isOptionsDisabled}
-                    style={{
-                        borderWidth: 3,
-                        borderColor: option === correctOption
-                            ? COLORS.success
-                            : option === currentOptionSelected
-                                ? COLORS.error
-                                : 'rgba(30, 144, 255, 0.25)', // Using rgba for transparency
-                        backgroundColor: option === correctOption
-                            ? 'rgba(0, 200, 81, 0.2)' // Success color with transparency
-                            : option === currentOptionSelected
-                                ? 'rgba(255, 68, 68, 0.2)' // Error color with transparency
-                                : 'rgba(30, 144, 255, 0.2)', // Secondary color with transparency
-                        height: 60,
-                        borderRadius: 20,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        paddingHorizontal: 20,
-                        marginVertical: 10
-                    }}
-                >
-                    <Text style={{ fontSize: 20, color: COLORS.white }}>{option}</Text>
-                    {option === correctOption ? (
-                        <View style={{
-                            width: 30, height: 30, borderRadius: 15,
-                            backgroundColor: COLORS.success,
-                            justifyContent: 'center', alignItems: 'center'
-                        }}>
-                            <MaterialCommunityIcons name="check" style={{ color: COLORS.white, fontSize: 20 }} />
-                        </View>
-                    ) : option === currentOptionSelected ? (
-                        <View style={{
-                            width: 30, height: 30, borderRadius: 15,
-                            backgroundColor: COLORS.error,
-                            justifyContent: 'center', alignItems: 'center'
-                        }}>
-                            <MaterialCommunityIcons name="close" style={{ color: COLORS.white, fontSize: 20 }} />
-                        </View>
-                    ) : null}
-                </TouchableOpacity>
-            ))}
-        </View>
-    );
-
-    // Render the next button
-    const renderNextButton = () => {
-        if (showNextButton) {
-            return (
-                <TouchableOpacity
-                    activeOpacity={0.7} // Button feedback on press
-                    onPress={handleNext}
-                    style={{
-                        marginTop: 20, width: '100%', backgroundColor: COLORS.accent, padding: 20, borderRadius: 5
-                    }}
-                >
-                    <Text style={{ fontSize: 20, color: COLORS.white, textAlign: 'center' }}>Next</Text>
-                </TouchableOpacity>
-            );
-        }
-        return null;
-    };
-
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
-            <View style={{ flex: 1, paddingVertical: 40, paddingHorizontal: 16, backgroundColor: COLORS.background }}>
-                {renderProgressBar()}
-                {renderQuestion()}
-                {renderOptions()}
-                {renderNextButton()}
-
-                {/* Score Modal */}
-                <Modal animationType="slide" transparent={true} visible={showScoreModal}>
-                    <View style={{
-                        flex: 1, backgroundColor: COLORS.primary, alignItems: 'center', justifyContent: 'center'
-                    }}>
-                        <View style={{
-                            backgroundColor: COLORS.white, width: '90%', borderRadius: 20, padding: 20, alignItems: 'center'
-                        }}>
-                            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
-                                {score > (allQuestions.length / 2) ? 'Congratulations!' : 'Oops!'}
-                            </Text>
-                            <View style={{
-                                flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginVertical: 20
-                            }}>
-                                <Text style={{
-                                    fontSize: 30, color: score > (allQuestions.length / 2) ? COLORS.success : COLORS.error
-                                }}>{score}</Text>
-                                <Text style={{
-                                    fontSize: 20, color: COLORS.black
-                                }}>/ {allQuestions.length}</Text>
-                            </View>
-                            <TouchableOpacity
-                                activeOpacity={0.7} // Button feedback
-                                onPress={restartQuiz}
-                                style={{
-                                    backgroundColor: COLORS.accent, padding: 20, width: '100%', borderRadius: 20
-                                }}
-                            >
-                                <Text style={{
-                                    textAlign: 'center', color: COLORS.white, fontSize: 20
-                                }}>Retry Quiz</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal>
-            </View>
-        </SafeAreaView>
-    );
+            {pressed && <Text style={styles.progressText}>Progress: {progress}%</Text>}
+          </Animated.View>
+        </MotiView>
+      </Animatable.View>
+    </TouchableOpacity>
+  );
 };
 
-export default Level3Screen;
+export default function ChallengesScreen() {
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const bounceAnim = useRef(new Animated.Value(1)).current;
+  const parallaxAnim = scrollY.interpolate({
+    inputRange: [0, 200],
+    outputRange: [0, -30],
+    extrapolate: 'clamp',
+  });
+
+  useEffect(() => {
+    // Bounce animation for character
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: 1.1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bounceAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [bounceAnim]);
+
+  return (
+    <View style={styles.container}>
+      {/* Background Animation */}
+      <LottieView
+        source={require('../../assets/animations/background-animation.json')}
+        autoPlay
+        loop
+        style={styles.backgroundAnimation}
+      />
+
+      {/* Character Animation with Parallax Effect */}
+      <Animated.View style={{ transform: [{ translateY: parallaxAnim }, { scale: bounceAnim }] }}>
+        <LottieView
+          source={require('../../assets/animations/character-animation.json')}
+          autoPlay
+          loop
+          style={styles.characterAnimation}
+        />
+      </Animated.View>
+
+      <Text style={styles.title}>Available Challenges</Text>
+
+      {/* Skia Animation Example */}
+      <Canvas style={styles.skiaAnimation}>
+        <Circle cx={75} cy={75} r={50} color="lightblue" />
+      </Canvas>
+
+      {/* Animated FlatList */}
+      <Animated.FlatList
+        data={challenges}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, index }) => (
+          <ChallengeItem title={item.title} index={index} progress={item.progress} />
+        )}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
+        contentContainerStyle={{ paddingBottom: 100 }}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    padding: 20,
+    backgroundColor: '#FAF9F6', // Off-White
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#2F4F4F', // Dark Slate Gray
+  },
+  challenge: {
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  challengeText: {
+    fontSize: 18,
+    color: '#2F4F4F', // Dark Slate Gray
+  },
+  characterAnimation: {
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  backgroundAnimation: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: -1,
+  },
+  progressBarContainer: {
+    height: 6,
+    backgroundColor: '#E0E0E0',
+    borderRadius: 5,
+    overflow: 'hidden',
+    marginTop: 10,
+  },
+  progressBar: {
+    height: '100%',
+    backgroundColor: '#FF6F61', // Coral Pink
+  },
+  progressText: {
+    marginTop: 5,
+    fontSize: 12,
+    color: '#2F4F4F', // Dark Slate Gray
+  },
+  skiaAnimation: {
+    height: 150,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+});
