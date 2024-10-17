@@ -16,6 +16,11 @@ import Level1Screen from './src/screens/Level1Screen';
 import Level2Screen from './src/screens/Level2Screen';
 import Level3Screen from './src/screens/Level3Screen';
 import Level4Screen from './src/screens/Level4Screen';
+import MyTrips from './src/screens/MyTrips';
+import SearchPlace from './src/screens/SearchPlace'; // Add the import for SearchPlace
+import SelectTraveler from './src/screens/SelectTraveler'; // Make sure this screen is also imported
+import SelectDates from './src/screens/SelectDates';  // Make sure this screen is also imported
+import { CreateTripProvider } from './context/CreateTripContext'; // Update with your actual path
 
 // Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -24,6 +29,7 @@ const Tab = createBottomTabNavigator();
 // Main Tabs
 function MainTabs() {
   return (
+    
     <Tab.Navigator
       screenOptions={({ route, navigation }) => ({
         tabBarIcon: ({ focused, color }) => {
@@ -58,6 +64,7 @@ function MainTabs() {
         },
       })}
     >
+
       <Tab.Screen name="HomeScreen" component={HomeScreen} />
       <Tab.Screen name="Map" component={MapScreen} />
       <Tab.Screen name="Challenges" component={ChallengesScreen} />
@@ -92,9 +99,15 @@ function ProfileStack() {
 // Main App Component
 export default function App() {
   return (
+    <CreateTripProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="MyTrip" component={MyTrips} options={{ title: 'My Trips' }} />
+
+        <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ title: 'Search Place' }} /> 
+        <Stack.Screen name="SelectTraveler" component={SelectTraveler} />
+        <Stack.Screen name="SelectDates" component={SelectDates}  options={{ title: 'Select Dates' }} />
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
@@ -105,5 +118,6 @@ export default function App() {
         <Stack.Screen name="Level4Screen" component={Level4Screen} options={{ title: 'Level 4' }} />
       </Stack.Navigator>
     </NavigationContainer>
+    </CreateTripProvider>
   );
 }
