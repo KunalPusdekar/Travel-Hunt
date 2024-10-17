@@ -15,7 +15,9 @@ export default function MapScreen() {
       description: 'One of the most famous Hindu temples dedicated to Lord Shiva.',
       latitude: 25.3109,
       longitude: 83.0076,
-      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+      localName: 'Pandit Ramesh Tiwari',
+      mobileNumber: '+91 9876543210'
     },
     {
       id: 2,
@@ -23,7 +25,9 @@ export default function MapScreen() {
       description: 'An important Buddhist site where Gautama Buddha gave his first sermon.',
       latitude: 25.3763,
       longitude: 83.0220,
-      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+      localName: 'Mr. Suresh Kumar',
+      mobileNumber: '+91 9123456789'
     },
     {
       id: 3,
@@ -31,7 +35,9 @@ export default function MapScreen() {
       description: 'One of the main ghats on the Ganges River, famous for its Ganga Aarti.',
       latitude: 25.3076,
       longitude: 83.0104,
-      videoSource: require('../../assets/videos/VaranasiVid.mp4'), // Update with your downloaded video file name
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+      localName: 'Mr. Ravi Gupta',
+      mobileNumber: '+91 9988776655'
     },
   ];
 
@@ -67,6 +73,10 @@ export default function MapScreen() {
           <>
             <Text style={styles.title}>{selectedLocation.title}</Text>
             <Text style={styles.description}>{selectedLocation.description}</Text>
+
+            {/* Display Local Name and Mobile Number */}
+            <Text style={styles.localInfo}>Local Contact: {selectedLocation.localName}</Text>
+            <Text style={styles.localInfo}>Mobile: {selectedLocation.mobileNumber}</Text>
 
             {/* Badge Images */}
             <View style={styles.badgesContainer}>
@@ -145,6 +155,11 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     color: '#2F4F4F',  // Dark Slate Gray for description
+  },
+  localInfo: {
+    fontSize: 16,
+    color: '#2F4F4F',
+    marginTop: 5,  // Space between description and local info
   },
   badgesContainer: {
     flexDirection: 'row',
