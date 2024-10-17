@@ -17,11 +17,12 @@ import Level2Screen from './src/screens/Level2Screen';
 import Level3Screen from './src/screens/Level3Screen';
 import Level4Screen from './src/screens/Level4Screen';
 import MyTrips from './src/screens/MyTrips';
-import SearchPlace from './src/screens/SearchPlace'; // Add the import for SearchPlace
-import SelectTraveler from './src/screens/SelectTraveler'; // Make sure this screen is also imported
-import SelectDates from './src/screens/SelectDates';  // Make sure this screen is also imported
-import { CreateTripProvider } from './context/CreateTripContext'; // Update with your actual path
-
+import SearchPlace from './src/screens/SearchPlace'; 
+import SelectTraveler from './src/screens/SelectTraveler'; 
+import SelectDates from './src/screens/SelectDates';  
+import { CreateTripProvider } from './context/CreateTripContext';
+import MainLocalTabs from './src/screens/MainLocalTabs';
+import RegistrationScreen from './src/screens/RegistrationScreen'; 
 // Stack and Tab navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -109,6 +110,9 @@ export default function App() {
         <Stack.Screen name="SelectTraveler" component={SelectTraveler} />
         <Stack.Screen name="SelectDates" component={SelectDates}  options={{ title: 'Select Dates' }} />
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="MainLocalTabs"  component={MainLocalTabs}  options={{ title: 'Local Entry' }} />
+        <Stack.Screen name="Registration" component={RegistrationScreen} options={{ title: 'Register' }} />
+        
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />

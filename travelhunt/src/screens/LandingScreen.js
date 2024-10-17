@@ -43,9 +43,9 @@ export default function LandingScreen({ navigation }) {
         useNativeDriver={!reducedMotion}  // Use native driver based on reduced motion setting
       />
 
-      {/* Animated Start Button */}
+      {/* Traveller Entry Button */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('Main')}
+        onPress={() => navigation.navigate('Main')}  // Navigate to the MainTabs for travelers
         activeOpacity={0.7}  // Slight opacity change when pressed
         style={styles.buttonContainer}
       >
@@ -56,11 +56,12 @@ export default function LandingScreen({ navigation }) {
           style={styles.startButton}
         >
           <Text style={styles.TravellerButtonText}>Traveller Entry</Text>
-
         </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={() => navigation.navigate('Main')}
+      </TouchableOpacity>
+
+      {/* Local Entry Button */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainLocalTabs')}  // Navigate to the MainLocalTabs for locals
         activeOpacity={0.7}  // Slight opacity change when pressed
         style={styles.buttonContainer}
       >
@@ -70,7 +71,6 @@ export default function LandingScreen({ navigation }) {
           end={{ x: 1, y: 1 }}
           style={styles.startButtontwo}
         >
-
           <Text style={styles.LocalButtonText}>Local Entry</Text>
         </LinearGradient>
       </TouchableOpacity>
