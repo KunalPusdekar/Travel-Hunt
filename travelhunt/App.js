@@ -119,7 +119,7 @@ export default function App() {
   return (
     <CreateTripProvider>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={isAuthenticated ? 'Landing' : 'Landing'}>
+      <Stack.Navigator initialRouteName={isAuthenticated ? 'Landing' : 'Login'}>
         {/* Authentication Screens */}
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignupScreen} />

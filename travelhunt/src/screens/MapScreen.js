@@ -15,7 +15,7 @@ export default function MapScreen() {
       description: 'One of the most famous Hindu temples dedicated to Lord Shiva.',
       latitude: 25.3109,
       longitude: 83.0076,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/newvaranasi_Zw4dBNNs.mp4'),
       localName: 'Pandit Ramesh Tiwari',
       mobileNumber: '+91 9876543210'
     },
@@ -25,7 +25,7 @@ export default function MapScreen() {
       description: 'An important Buddhist site where Gautama Buddha gave his first sermon.',
       latitude: 25.3763,
       longitude: 83.0220,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/newvaranasi_Zw4dBNNs.mp4'),
       localName: 'Mr. Suresh Kumar',
       mobileNumber: '+91 9123456789'
     },
@@ -35,7 +35,7 @@ export default function MapScreen() {
       description: 'One of the main ghats on the Ganges River, famous for its Ganga Aarti.',
       latitude: 25.3076,
       longitude: 83.0104,
-      videoSource: require('../../assets/videos/varanasi.mp4'),
+      videoSource: require('../../assets/videos/newvaranasi_Zw4dBNNs.mp4'),
       localName: 'Mr. Ravi Gupta',
       mobileNumber: '+91 9988776655'
     },
