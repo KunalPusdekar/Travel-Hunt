@@ -247,7 +247,7 @@ Retrieve all hidden locations in the system.
   }
 ]
 ```
-## 9. POST http://localhost:5000/api/quizzes
+## 9. POST http://localhost:5000/api/quiz 
 Headers: Content-Type: application/json  
         admin-password: ADMIN_PASSWORD (admin)  
 Body:
@@ -298,7 +298,7 @@ Response:
 }
 ```
 
-### 10. GET http://localhost:5000/api/quizzes/:city  
+### 10. GET http://localhost:5000/api/quiz/:city  
 Response:
 ```json
 [
@@ -332,6 +332,87 @@ Response:
             }
         ],
         "__v": 0
+    }
+]
+```
+
+## 11. GET http://localhost:5000/api/quiz
+gives all quizezs
+
+## 12. POST http://localhost:5000/api/challenge
+Headers: Content-Type: application/json  
+        admin-password: ADMIN_PASSWORD (admin)  
+Body:
+```json
+{
+  "title": "Explore Hidden Temple",
+  "city": "Nagpur",
+  "points": 100,
+  "locationCoordinates": { "lat": 21.1458, "long": 79.0882 },
+  "description": "Visit the hidden temple near the lake and take a photo",
+  "required": false
+}
+```
+
+Response:
+```json
+{
+    "title": "Explore Hidden Temple",
+    "city": "Nagpur",
+    "points": 100,
+    "locationCoordinates": {
+        "lat": 21.1458,
+        "long": 79.0882
+    },
+    "description": "Visit the hidden temple near the lake and take a photo",
+    "required": false,
+    "_id": "671059c379dbb52bd33984b7",
+    "__v": 0
+}
+```
+
+### 13. GET http://localhost:5000/api/challenge/:city  
+Response:
+```json
+[
+    {
+        "locationCoordinates": {
+            "lat": 21.1458,
+            "long": 79.0882
+        },
+        "_id": "671059c379dbb52bd33984b7",
+        "title": "Explore Hidden Temple",
+        "city": "Nagpur",
+        "points": 100,
+        "description": "Visit the hidden temple near the lake and take a photo",
+        "required": false,
+        "__v": 0
+    }
+]
+```
+
+### 14. GET http://localhost:5000/api/challenge  
+Response:
+```json
+[
+    {
+        "locationCoordinates": {
+            "lat": 21.1458,
+            "long": 79.0882
+        },
+        "_id": "671059c379dbb52bd33984b7",
+        "title": "Explore Hidden Temple",
+        "city": "Nagpur",
+        "points": 100,
+        "description": "Visit the hidden temple near the lake and take a photo",
+        "required": false,
+        "__v": 0
+    },
+    {
+
+    },
+    {
+
     }
 ]
 ```

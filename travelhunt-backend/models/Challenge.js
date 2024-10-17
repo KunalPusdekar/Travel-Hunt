@@ -1,18 +1,18 @@
+// models/Challenge.js
 const mongoose = require('mongoose');
 
-const challengeSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const ChallengeSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  city: { type: String, required: true },
+  points: { type: Number, required: true },
+  locationCoordinates: {
+    lat: { type: Number, required: true },
+    long: { type: Number, required: true }
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  points: {
-    type: Number,
-    required: true,
-  },
-}, { timestamps: true });
+  description: { type: String, required: true },
+  required: { type: Boolean, default: false }
+});
 
-module.exports = mongoose.model('Challenge', challengeSchema);
+const Challenge = mongoose.model('Challenge', ChallengeSchema);
+
+module.exports = Challenge;
