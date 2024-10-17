@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import navigation hook
 import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient for background
 import * as Animatable from 'react-native-animatable'; // Import Animatable for animations
@@ -34,7 +34,7 @@ export default function Level1Screen() {
       {/* Custom Button with navigation */}
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('HomeScreen')}
+        onPress={() => navigation.navigate('MyTrip')} // Change navigation target to MyTrip
       >
         <LinearGradient
           colors={['#FF6347', '#FFAB40']} // Button gradient colors
