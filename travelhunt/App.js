@@ -95,9 +95,9 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />
         <Stack.Screen name="Level1" component={Level1Screen} options={{ title: 'Level 1' }} />
-        <Stack.Screen name="Level2" component={Level2Screen} options={{ title: 'Level 2' }} />
+        {/* <Stack.Screen name="Level2" component={Level2Screen} options={{ title: 'Level 2' }} />
         <Stack.Screen name="Level3" component={Level3Screen} options={{ title: 'Level 3' }} />
-        <Stack.Screen name="Level4" component={Level4Screen} options={{ title: 'Level 4' }} />
+        <Stack.Screen name="Level4" component={Level4Screen} options={{ title: 'Level 4' }} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

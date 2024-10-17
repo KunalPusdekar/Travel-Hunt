@@ -12,7 +12,7 @@ export default function Level1Screen() {
 
       {/* Level 1 Content */}
       <Image
-        source={require('D:\MIT\TechNomads\travelhunt\assets\badges\cultural_master.png')} // Placeholder image for Level 1
+        source={require('../../assets/badges/cultural_master.png')} // Placeholder image for Level 1
         style={styles.levelImage}
       />
       <Text style={styles.description}>
