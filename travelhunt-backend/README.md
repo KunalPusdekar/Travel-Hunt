@@ -417,16 +417,29 @@ Response:
 ]
 ```
 
-## 15. POST http://localhost:5000/api/challenge/complete
-Bearer Token : token
-Headers:
-content-Type application/json
-body:
+### **15. Complete a Challenge**
+
+**Endpoint**:  
+`POST http://localhost:5000/api/challenge/complete`
+
+**Authentication**:  
+Bearer Token: `token`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (Example):
+```json
 {
   "challengeId": "6710742719fe153c4e568281",
   "pointsEarned": 50
 }
-response:
+```
+
+**Response**:
+```json
 {
     "message": "Challenge completed successfully",
     "totalPoints": 50,
@@ -440,18 +453,30 @@ response:
         }
     ]
 }
-
 ```
-## 16. POST http://localhost:5000/api/quiz/complete
-Bearer Token : token
-Headers:
-content-Type application/json
-body:
+### **16. Complete a Quiz**
+
+**Endpoint**:  
+`POST http://localhost:5000/api/quiz/complete`
+
+**Authentication**:  
+Bearer Token: `token`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (Example):
+```json
 {
   "quizId": "671053940fc85fdbc6a99cbc",
-  "userAnswers": ["Ladoo", "Diwali"] // User's answers for the questions in order
+  "userAnswers": ["Ladoo", "Diwali"]  // User's answers for the questions in order
 }
-response:
+```
+
+**Response**:
+```json
 {
     "message": "Quiz completed successfully",
     "score": 50,
@@ -465,3 +490,55 @@ response:
         }
     ]
 }
+```
+Here’s the formatted version for your README:
+
+---
+
+### **17. Get Global Leaderboard**
+
+**Endpoint**:  
+`GET http://localhost:5000/api/leaderboard/global`
+
+**Response** (Example):
+```json
+[
+    {
+        "_id": "670fca0525b1a3befd1c023e",
+        "username": "user3",
+        "totalPoints": 100
+    },
+    {
+        "_id": "670fc741ed671d0bea6374e7",
+        "username": "user2",
+        "totalPoints": 0
+    },
+    {
+        "_id": "670f5838e89646381ebeaa5b",
+        "username": "user1",
+        "totalPoints": 0
+    }
+]
+```
+### **18. Get City Leaderboard**
+
+**Endpoint**:  
+`GET http://localhost:5000/api/leaderboard/city/:city`
+
+**Response** (Example):
+```json
+[
+    {
+        "_id": "670fca0525b1a3befd1c023e",
+        "username": "user3",
+        "city": "Nagpur",
+        "totalPoints": 100
+    },
+    {
+        "_id": "670fc741ed671d0bea6374e7",
+        "username": "user2",
+        "totalPoints": 0,
+        "city": "Nagpur"
+    }
+]
+```

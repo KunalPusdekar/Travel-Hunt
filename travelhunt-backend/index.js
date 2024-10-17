@@ -8,6 +8,7 @@ const userProfileRoutes = require('./routes/userProfile');
 const locationRoutes = require('./routes/hiddenLocations');
 const quizRoutes = require('./routes/quiz');
 const challengeRoutes = require('./routes/challenges');
+const leaderboardRoutes = require('./routes/leaderboard');
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api/user', userProfileRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/challenge', challengeRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
