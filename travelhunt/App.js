@@ -12,6 +12,11 @@ import ProfileScreen from './src/screens/ProfileScreen';
 import EditProfileScreen from './src/screens/EditProfileScreen';
 import LeaderboardScreen from './src/screens/LeaderboardScreen';
 import SelfieUploadScreen from './src/screens/SelfieUploadScreen'; // Correct path
+import Level1Screen from './src/screens/Level1Screen'; // Correct path
+import Level2Screen from './src/screens/Level2Screen'; // Correct path
+import Level3Screen from './src/screens/Level3Screen'; // Correct path
+import Level4Screen from './src/screens/Level4Screen'; // Correct path
+
 
 // Stack and Tab navigators
 const Stack = createNativeStackNavigator();
@@ -89,7 +94,10 @@ export default function App() {
         <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
         <Stack.Screen name="Profile" component={ProfileStack} />
         <Stack.Screen name="SelfieUploadScreen" component={SelfieUploadScreen} options={{ title: 'Upload Selfie' }} />
-
+        <Stack.Screen name="Level1" component={Level1Screen} options={{ title: 'Level 1' }} />
+        <Stack.Screen name="Level2" component={Level2Screen} options={{ title: 'Level 2' }} />
+        <Stack.Screen name="Level3" component={Level3Screen} options={{ title: 'Level 3' }} />
+        <Stack.Screen name="Level4" component={Level4Screen} options={{ title: 'Level 4' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
