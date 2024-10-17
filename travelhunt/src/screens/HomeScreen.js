@@ -3,6 +3,7 @@ import { View, Text, TextInput, ScrollView, TouchableOpacity, StyleSheet, Image,
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable';
 import { Svg, Path } from 'react-native-svg';
+import { useNavigation } from '@react-navigation/native'; // Add navigation hook
 
 // Predefined badge images mapping
 const badgeImages = {
@@ -11,7 +12,38 @@ const badgeImages = {
   conqueror: require('../../assets/badges/conqueror.jpg'),
   legend: require('../../assets/badges/legend.jpg'),
   master: require('../../assets/badges/master.jpg'),
-  // Add more badges here if needed
+};
+
+// Reusable LevelButton Component
+const LevelButton = ({ level, unlockedLevel, handleLevelUnlock, badgeName, navigation, screen }) => {
+  const isUnlocked = unlockedLevel >= level;
+  const isCurrentLevel = unlockedLevel  === level;
+
+  return (
+    <View style={styles.levelRow}>
+      <Animatable.View
+        animation="bounceIn"
+        delay={100 * level}
+        style={[
+          styles.levelButton,
+          isUnlocked ? styles.unlocked : styles.locked,
+          isCurrentLevel && styles.currentLevel,
+        ]}
+      >
+        <TouchableOpacity
+          disabled={!isUnlocked}
+          onPress={() => {
+            handleLevelUnlock(level + 1, badgeName);
+            if (isUnlocked) {
+              navigation.navigate(screen); // Navigate to specific screen
+            }
+          }}
+        >
+          <Text style={styles.levelText}>Level {level}</Text>
+        </TouchableOpacity>
+      </Animatable.View>
+    </View>
+  );
 };
 
 // Define HomeScreen component
@@ -20,6 +52,8 @@ export default function HomeScreen() {
   const [unlockedLevel, setUnlockedLevel] = useState(1); // Keep track of unlocked levels
   const [showBadgePopup, setShowBadgePopup] = useState(false); // Modal visibility
   const [badgeInfo, setBadgeInfo] = useState({ level: 1, badgeName: 'Explorer' }); // Badge information
+
+  const navigation = useNavigation(); // Access navigation
 
   // Function to handle level unlocking
   const handleLevelUnlock = (level, badgeName) => {
@@ -34,7 +68,7 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.container}>
       {/* Search Bar */}
-      <View style={styles.searchContainer}>
+      {/* <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#FFAB40" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
@@ -43,127 +77,69 @@ export default function HomeScreen() {
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
-      </View>
+      </View> */}
 
       {/* Levels Section */}
       <View style={styles.levelsContainer}>
-        <Text style={styles.sectionTitle}>Your Journey</Text>
+        <Text style={styles.sectionTitle}>Start Journey!!!</Text>
 
-        {/* First Level */}
-        <View style={styles.levelRow}>
-          <Animatable.View
-            animation="bounceIn"
-            delay={100}
-            style={[styles.levelButton, unlockedLevel >= 1 ? styles.unlocked : styles.locked]}
-          >
-            <TouchableOpacity disabled={unlockedLevel < 1} onPress={() => handleLevelUnlock(2, 'Explorer')}>
-              <Text style={styles.levelText}>Level 1</Text>
-            </TouchableOpacity>
-          </Animatable.View>
-        </View>
-
-        {/* Curvy Line connecting Level 1 to Level 2 */}
-        <Svg height="100" width="100" style={styles.line}>
-          <Path d="M50,0 C50,50 100,50 100,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+        {/* Render Level Buttons */}
+        <LevelButton
+          level={1}
+          unlockedLevel={unlockedLevel}
+          handleLevelUnlock={handleLevelUnlock}
+          badgeName="Explorer"
+          navigation={navigation}
+          screen="Level1Screen" // Navigate to Level 1 screen
+        />
+        <Svg height="100" width="120" style={styles.line}>
+          <Path d="M60,0 C50,50 100,50 70,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
         </Svg>
 
-        {/* Second Level */}
-        <View style={styles.levelRow}>
-          <Animatable.View
-            animation="bounceIn"
-            delay={200}
-            style={[styles.levelButton, unlockedLevel >= 2 ? styles.unlocked : styles.locked]}
-          >
-            <TouchableOpacity disabled={unlockedLevel < 2} onPress={() => handleLevelUnlock(3, 'Adventurer')}>
-              <Text style={styles.levelText}>Level 2</Text>
-            </TouchableOpacity>
-          </Animatable.View>
-        </View>
-
-        {/* Curvy Line connecting Level 2 to Level 3 */}
-        <Svg height="100" width="100" style={styles.line}>
-          <Path d="M0,0 C0,50 50,50 50,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+        <LevelButton
+          level={2}
+          unlockedLevel={unlockedLevel}
+          handleLevelUnlock={handleLevelUnlock}
+          badgeName="Adventurer"
+          navigation={navigation}
+          screen="Level2Screen" // Navigate to Level 2 screen
+        />
+        <Svg height="100" width="60" style={styles.line}>
+          <Path d="M10,-2 C0,70 70,50 55,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
         </Svg>
 
-        {/* Third Level */}
-        <View style={styles.levelRow}>
-          <Animatable.View
-            animation="bounceIn"
-            delay={300}
-            style={[styles.levelButton, unlockedLevel >= 3 ? styles.unlocked : styles.locked]}
-          >
-            <TouchableOpacity disabled={unlockedLevel < 3} onPress={() => handleLevelUnlock(4, 'Conqueror')}>
-              <Text style={styles.levelText}>Level 3</Text>
-            </TouchableOpacity>
-          </Animatable.View>
-        </View>
-
-        {/* Curvy Line connecting Level 3 to Level 4 */}
-        <Svg height="100" width="100" style={styles.line}>
-          <Path d="M50,0 C50,50 100,50 100,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
+        <LevelButton
+          level={3}
+          unlockedLevel={unlockedLevel}
+          handleLevelUnlock={handleLevelUnlock}
+          badgeName="Conqueror"
+          navigation={navigation}
+          screen="Level3Screen" // Navigate to Level 3 screen
+        />
+        <Svg height="100" width="120" style={styles.line}>
+          <Path d="M50,0 C50,50 100,50 70,100" stroke="#FFAB40" strokeWidth="2" strokeDasharray="5,5" fill="none" />
         </Svg>
 
-        {/* Fourth Level */}
-        <View style={styles.levelRow}>
-          <Animatable.View
-            animation="bounceIn"
-            delay={400}
-            style={[styles.levelButton, unlockedLevel >= 4 ? styles.unlocked : styles.locked]}
-          >
-            <TouchableOpacity disabled={unlockedLevel < 4} onPress={() => handleLevelUnlock(5, 'Legend')}>
-              <Text style={styles.levelText}>Level 4</Text>
-            </TouchableOpacity>
-          </Animatable.View>
-        </View>
+        <LevelButton
+          level={4}
+          unlockedLevel={unlockedLevel}
+          handleLevelUnlock={handleLevelUnlock}
+          badgeName="Legend"
+          navigation={navigation}
+          screen="Level4Screen" // Navigate to Level 4 screen
+        />
 
         {/* Add more levels similarly */}
-
       </View>
-
-      {/* Retain Existing Content */}
-      <Animatable.View animation="fadeInUp" delay={100} style={styles.section}>
-        <Text style={styles.sectionTitle}>Discover Hidden Gems</Text>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.squareButton}>
-            <Image source={require('../../assets/badges/explorer.png')} style={styles.buttonImage} />
-            <Text style={styles.buttonText}>Explore</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.squareButton}>
-            <Image source={require('../../assets/badges/adventurer.jpg')} style={styles.buttonImage} />
-            <Text style={styles.buttonText}>Learn</Text>
-          </TouchableOpacity>
-        </View>
-      </Animatable.View>
-
-      {/* Cultural Experiences Section */}
-      <Animatable.View animation="fadeInUp" delay={200} style={styles.section}>
-        <Text style={styles.sectionTitle}>Cultural Experiences</Text>
-        <View style={styles.culturalContainer}>
-          <TouchableOpacity style={styles.culturalButton}>
-            <Ionicons name="musical-notes" size={30} color="#FFAB40" />
-            <Text style={styles.culturalText}>Music & Art</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.culturalButton}>
-            <Ionicons name="flash" size={30} color="#FFAB40" />
-            <Text style={styles.culturalText}>Thrilling</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.culturalButton}>
-            <Ionicons name="time" size={30} color="#FFAB40" />
-            <Text style={styles.culturalText}>Historical</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.culturalButton}>
-            <Ionicons name="happy" size={30} color="#FFAB40" />
-            <Text style={styles.culturalText}>Comedy</Text>
-          </TouchableOpacity>
-        </View>
-      </Animatable.View>
 
       {/* Badge Popup Modal */}
       <Modal visible={showBadgePopup} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>
           <Animatable.View animation="zoomIn" style={styles.modalContent}>
             <Text style={styles.modalTitle}>Congratulations!</Text>
-            <Text style={styles.modalMessage}>You've unlocked {badgeInfo.badgeName} badge for completing Level {badgeInfo.level}.</Text>
+            <Text style={styles.modalMessage}>
+              You've unlocked {badgeInfo.badgeName} badge for completing Level {badgeInfo.level}.
+            </Text>
             <Image source={badgeImages[badgeInfo.badgeName.toLowerCase()]} style={styles.badgeImage} />
             <Button title="Close" onPress={() => setShowBadgePopup(false)} />
           </Animatable.View>
@@ -222,53 +198,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   unlocked: {
-    backgroundColor: '#FFAB40',
+    backgroundColor: 'green',
   },
   locked: {
     backgroundColor: '#333',
   },
+  currentLevel: {
+    borderColor: '#FFD700', // Gold glowing ring for the current level
+    borderWidth: 6,
+    backgroundColor: 'orange',
+    shadowColor: '#FFD700',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+  },
   line: {
     marginBottom: 10,
-  },
-  section: {
-    marginBottom: 30,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  squareButton: {
-    width: '48%',
-    backgroundColor: '#FFAB40',
-    borderRadius: 10,
-    padding: 15,
-    alignItems: 'center',
-  },
-  buttonImage: {
-    width: 40,
-    height: 40,
-    marginBottom: 10,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  culturalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  culturalButton: {
-    alignItems: 'center',
-    backgroundColor: '#333',
-    borderRadius: 10,
-    padding: 10,
-    flex: 1,
-    margin: 5,
-  },
-  culturalText: {
-    color: '#FFAB40',
   },
   modalContainer: {
     flex: 1,
