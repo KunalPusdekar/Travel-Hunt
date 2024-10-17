@@ -149,6 +149,10 @@ Retrieve the authenticated user's profile details.
 
 ---
 
+Here’s the updated README with the changes you’ve requested:
+
+---
+
 ## 6. Create Hidden Location (Admin Only)
 
 ### POST `/api/locations`
@@ -162,8 +166,10 @@ Create a new hidden location in the system (admin access only).
 ```json
 {
   "locationName": "Nagpur",
-  "coordinates": { "lat": 21.1458, "lng": 79.0882 },
+  "latitude": 21.1458,
+  "longitude": 79.0882,
   "description": "A hidden gem in Nagpur",
+  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Nagpur_Orange_Market.jpg",
   "culturalSignificance": "Historical site",
   "challenges": [],
   "quizzes": []
@@ -173,13 +179,15 @@ Create a new hidden location in the system (admin access only).
 #### Response
 ```json
 {
+  "_id": "671049eaf498578817629d0b",
   "locationName": "Nagpur",
-  "coordinates": { "lat": 21.1458, "lng": 79.0882 },
+  "latitude": 21.1458,
+  "longitude": 79.0882,
   "description": "A hidden gem in Nagpur",
+  "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Nagpur_Orange_Market.jpg",
   "culturalSignificance": "Historical site",
   "challenges": [],
   "quizzes": [],
-  "_id": "671049eaf498578817629d0b",
   "createdAt": "2024-10-16T23:19:06.636Z",
   "updatedAt": "2024-10-16T23:19:06.636Z",
   "__v": 0
@@ -193,14 +201,21 @@ Create a new hidden location in the system (admin access only).
 ### GET `/api/locations/:city`
 Retrieve hidden locations based on the specified city.
 
+#### Request
+```http
+GET /api/locations/Nagpur
+```
+
 #### Response
 ```json
 [
   {
-    "coordinates": { "lat": 21.1458, "lng": 79.0882 },
     "_id": "671049eaf498578817629d0b",
     "locationName": "Nagpur",
+    "latitude": 21.1458,
+    "longitude": 79.0882,
     "description": "A hidden gem in Nagpur",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Nagpur_Orange_Market.jpg",
     "culturalSignificance": "Historical site",
     "challenges": [],
     "quizzes": [],
@@ -218,14 +233,21 @@ Retrieve hidden locations based on the specified city.
 ### GET `/api/locations`
 Retrieve all hidden locations in the system.
 
+#### Request
+```http
+GET /api/locations
+```
+
 #### Response
 ```json
 [
   {
-    "coordinates": { "lat": 21.1702, "lng": 79.0956 },
     "_id": "671041e94f8fd0503dba1b1e",
     "locationName": "Dragon Palace Temple",
+    "latitude": 21.1702,
+    "longitude": 79.0956,
     "description": "A serene Buddhist temple with beautiful architecture.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Raman_Science_Centre%2C_Nagpur.jpg",
     "culturalSignificance": "It is a place of worship and peace, offering a glimpse into Buddhist culture.",
     "challenges": [],
     "quizzes": [],
@@ -234,10 +256,12 @@ Retrieve all hidden locations in the system.
     "__v": 0
   },
   {
-    "coordinates": { "lat": 21.1458, "lng": 79.0882 },
     "_id": "671049eaf498578817629d0b",
     "locationName": "Nagpur",
+    "latitude": 21.1458,
+    "longitude": 79.0882,
     "description": "A hidden gem in Nagpur",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/23/Nagpur_Orange_Market.jpg",
     "culturalSignificance": "Historical site",
     "challenges": [],
     "quizzes": [],
@@ -247,6 +271,16 @@ Retrieve all hidden locations in the system.
   }
 ]
 ```
+
+---
+
+### Summary of Changes:
+1. **Schema Update**: The location model now uses `latitude`, `longitude`, and `imageUrl` fields.
+2. **POST Route**: Admins can create new hidden locations with images.
+3. **GET Routes**: Fetch hidden locations either by city or retrieve all locations in the system, displaying their descriptions and images.
+
+This structure accommodates the changes to the schema and ensures all locations are handled properly.
+
 ## 9. POST http://localhost:5000/api/quiz 
 Headers: Content-Type: application/json  
         admin-password: ADMIN_PASSWORD (admin)  
@@ -371,7 +405,7 @@ Response:
 }
 ```
 
-### 13. GET http://localhost:5000/api/challenge/:city  
+## 13. GET http://localhost:5000/api/challenge/:city  
 Response:
 ```json
 [
@@ -391,7 +425,7 @@ Response:
 ]
 ```
 
-### 14. GET http://localhost:5000/api/challenge  
+## 14. GET http://localhost:5000/api/challenge  
 Response:
 ```json
 [
@@ -413,6 +447,132 @@ Response:
     },
     {
 
+    }
+]
+```
+
+### **15. Complete a Challenge**
+
+**Endpoint**:  
+`POST http://localhost:5000/api/challenge/complete`
+
+**Authentication**:  
+Bearer Token: `token`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (Example):
+```json
+{
+  "challengeId": "6710742719fe153c4e568281",
+  "pointsEarned": 50
+}
+```
+
+**Response**:
+```json
+{
+    "message": "Challenge completed successfully",
+    "totalPoints": 50,
+    "challengesCompleted": [
+        {
+            "challengeId": "6710742719fe153c4e568281",
+            "status": "completed",
+            "completedAt": "2024-10-17T02:30:04.347Z",
+            "pointsEarned": 50,
+            "_id": "671076ac305d1abadbc460f8"
+        }
+    ]
+}
+```
+### **16. Complete a Quiz**
+
+**Endpoint**:  
+`POST http://localhost:5000/api/quiz/complete`
+
+**Authentication**:  
+Bearer Token: `token`
+
+**Headers**:
+```
+Content-Type: application/json
+```
+
+**Body** (Example):
+```json
+{
+  "quizId": "671053940fc85fdbc6a99cbc",
+  "userAnswers": ["Ladoo", "Diwali"]  // User's answers for the questions in order
+}
+```
+
+**Response**:
+```json
+{
+    "message": "Quiz completed successfully",
+    "score": 50,
+    "totalPoints": 100,
+    "quizAttempts": [
+        {
+            "quizId": "671053940fc85fdbc6a99cbc",
+            "score": 50,
+            "completedAt": "2024-10-17T04:01:54.374Z",
+            "_id": "67108c328bcdac1315fa1738"
+        }
+    ]
+}
+```
+Here’s the formatted version for your README:
+
+---
+
+### **17. Get Global Leaderboard**
+
+**Endpoint**:  
+`GET http://localhost:5000/api/leaderboard/global`
+
+**Response** (Example):
+```json
+[
+    {
+        "_id": "670fca0525b1a3befd1c023e",
+        "username": "user3",
+        "totalPoints": 100
+    },
+    {
+        "_id": "670fc741ed671d0bea6374e7",
+        "username": "user2",
+        "totalPoints": 0
+    },
+    {
+        "_id": "670f5838e89646381ebeaa5b",
+        "username": "user1",
+        "totalPoints": 0
+    }
+]
+```
+### **18. Get City Leaderboard**
+
+**Endpoint**:  
+`GET http://localhost:5000/api/leaderboard/city/:city`
+
+**Response** (Example):
+```json
+[
+    {
+        "_id": "670fca0525b1a3befd1c023e",
+        "username": "user3",
+        "city": "Nagpur",
+        "totalPoints": 100
+    },
+    {
+        "_id": "670fc741ed671d0bea6374e7",
+        "username": "user2",
+        "totalPoints": 0,
+        "city": "Nagpur"
     }
 ]
 ```

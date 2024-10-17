@@ -8,6 +8,7 @@ const userProfileRoutes = require('./routes/userProfile');
 const locationRoutes = require('./routes/hiddenLocations');
 const quizRoutes = require('./routes/quiz');
 const challengeRoutes = require('./routes/challenges');
+const leaderboardRoutes = require('./routes/leaderboard');
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use('/api/user', userProfileRoutes);
 app.use('/api/locations', locationRoutes);
 app.use('/api/quiz', quizRoutes);
 app.use('/api/challenge', challengeRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -38,7 +40,9 @@ app.get('/', (req, res) => {
   res.send('blog backend');
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+module.exports = app;
