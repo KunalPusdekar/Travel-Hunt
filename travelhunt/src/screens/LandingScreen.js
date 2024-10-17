@@ -43,9 +43,9 @@ export default function LandingScreen({ navigation }) {
         useNativeDriver={!reducedMotion}  // Use native driver based on reduced motion setting
       />
 
-      {/* Animated Start Button */}
+      {/* Traveller Entry Button */}
       <TouchableOpacity
-        onPress={() => navigation.navigate('Main')}
+        onPress={() => navigation.navigate('Main')}  // Navigate to the MainTabs for travelers
         activeOpacity={0.7}  // Slight opacity change when pressed
         style={styles.buttonContainer}
       >
@@ -56,15 +56,21 @@ export default function LandingScreen({ navigation }) {
           style={styles.startButton}
         >
           <Text style={styles.TravellerButtonText}>Traveller Entry</Text>
-
         </LinearGradient>
+      </TouchableOpacity>
+
+      {/* Local Entry Button */}
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainLocalTabs')}  // Navigate to the MainLocalTabs for locals
+        activeOpacity={0.7}  // Slight opacity change when pressed
+        style={styles.buttonContainer}
+      >
         <LinearGradient
           colors={['#F8B400', '#FF6F61']}  // Sand Yellow to Coral Pink gradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.startButtontwo}
         >
-
           <Text style={styles.LocalButtonText}>Local Entry</Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -77,7 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FAF9F6',  // Off-White background
+    backgroundColor: '#212121',  // Off-White background
   },
   animation: {
     width: 300,
