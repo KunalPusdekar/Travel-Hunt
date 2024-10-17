@@ -53,6 +53,10 @@ const ChallengeItem = ({ title, index, progress, sustainability }) => {
     if (title === 'Photo Quest: Capture the Hidden Waterfall') {
       navigation.navigate('SelfieUploadScreen');
     }
+    else if (sustainability){
+        // Navigate to the SustainabilityScreen if this is a sustainability challenge
+        navigation.navigate('SustainabilityScreen');
+    }
   };
 
   return (
