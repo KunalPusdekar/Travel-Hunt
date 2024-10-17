@@ -247,3 +247,91 @@ Retrieve all hidden locations in the system.
   }
 ]
 ```
+## 9. POST http://localhost:5000/api/quizzes
+Headers: Content-Type: application/json  
+        admin-password: ADMIN_PASSWORD (admin)  
+Body:
+```json
+{
+  "title": "Festivals Quiz",
+  "city": "Nagpur",
+  "points": 50,
+  "questions": [
+    {
+      "questionText": "What is the most popular sweet during Diwali?",
+      "options": ["Ladoo", "Barfi", "Jalebi", "Kaju Katli"],
+      "correctAnswer": "Ladoo"
+    },
+    {
+      "questionText": "Which festival is known as the Festival of Lights?",
+      "options": ["Diwali", "Holi", "Navratri", "Eid"],
+      "correctAnswer": "Diwali"
+    }
+  ]
+}
+```
+
+Response:
+```json
+{
+  "_id": "6710f6a95f6e4e2b9d0bc0a6",
+  "title": "Festivals Quiz",
+  "city": "Nagpur",
+  "points": 50,
+  "questions": [
+    {
+      "questionText": "What is the most popular sweet during Diwali?",
+      "options": ["Ladoo", "Barfi", "Jalebi", "Kaju Katli"],
+      "correctAnswer": "Ladoo",
+      "_id": "6710f6a95f6e4e2b9d0bc0a7"
+    },
+    {
+      "questionText": "Which festival is known as the Festival of Lights?",
+      "options": ["Diwali", "Holi", "Navratri", "Eid"],
+      "correctAnswer": "Diwali",
+      "_id": "6710f6a95f6e4e2b9d0bc0a8"
+    }
+  ],
+  "createdAt": "2024-10-16T10:40:15.728Z",
+  "updatedAt": "2024-10-16T10:40:15.728Z",
+  "__v": 0
+}
+```
+
+### 10. GET http://localhost:5000/api/quizzes/:city  
+Response:
+```json
+[
+    {
+        "_id": "671053940fc85fdbc6a99cbc",
+        "title": "Festivals Quiz",
+        "city": "Nagpur",
+        "points": 50,
+        "questions": [
+            {
+                "questionText": "What is the most popular sweet during Diwali?",
+                "options": [
+                    "Ladoo",
+                    "Barfi",
+                    "Jalebi",
+                    "Kaju Katli"
+                ],
+                "correctAnswer": "Ladoo",
+                "_id": "671053940fc85fdbc6a99cbd"
+            },
+            {
+                "questionText": "Which festival is known as the Festival of Lights?",
+                "options": [
+                    "Diwali",
+                    "Holi",
+                    "Navratri",
+                    "Eid"
+                ],
+                "correctAnswer": "Diwali",
+                "_id": "671053940fc85fdbc6a99cbe"
+            }
+        ],
+        "__v": 0
+    }
+]
+```
