@@ -371,7 +371,7 @@ Response:
 }
 ```
 
-### 13. GET http://localhost:5000/api/challenge/:city  
+## 13. GET http://localhost:5000/api/challenge/:city  
 Response:
 ```json
 [
@@ -391,7 +391,7 @@ Response:
 ]
 ```
 
-### 14. GET http://localhost:5000/api/challenge  
+## 14. GET http://localhost:5000/api/challenge  
 Response:
 ```json
 [
@@ -416,3 +416,52 @@ Response:
     }
 ]
 ```
+
+## 15. POST http://localhost:5000/api/challenge/complete
+Bearer Token : token
+Headers:
+content-Type application/json
+body:
+{
+  "challengeId": "6710742719fe153c4e568281",
+  "pointsEarned": 50
+}
+response:
+{
+    "message": "Challenge completed successfully",
+    "totalPoints": 50,
+    "challengesCompleted": [
+        {
+            "challengeId": "6710742719fe153c4e568281",
+            "status": "completed",
+            "completedAt": "2024-10-17T02:30:04.347Z",
+            "pointsEarned": 50,
+            "_id": "671076ac305d1abadbc460f8"
+        }
+    ]
+}
+
+```
+## 16. POST http://localhost:5000/api/quiz/complete
+Bearer Token : token
+Headers:
+content-Type application/json
+body:
+{
+  "quizId": "671053940fc85fdbc6a99cbc",
+  "userAnswers": ["Ladoo", "Diwali"] // User's answers for the questions in order
+}
+response:
+{
+    "message": "Quiz completed successfully",
+    "score": 50,
+    "totalPoints": 100,
+    "quizAttempts": [
+        {
+            "quizId": "671053940fc85fdbc6a99cbc",
+            "score": 50,
+            "completedAt": "2024-10-17T04:01:54.374Z",
+            "_id": "67108c328bcdac1315fa1738"
+        }
+    ]
+}
