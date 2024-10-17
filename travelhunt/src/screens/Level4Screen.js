@@ -26,31 +26,57 @@ const SIZES = {
 // Quiz Data
 const data = [
     {
-        question: "What is the name of the famous lake located in Nagpur?",
-        options: ["Futala Lake", "Lagad Dhokla", "Khindsi Lake", "Shivaji Lake"],
-        correct_option: "Futala Lake"
+        question: "What is the capital city of Himachal Pradesh?",
+        options: ["Dharamshala", "Shimla", "Kullu", "Manali"],
+        correct_option: "Shimla"
     },
     {
-        question: "Which temple in Nagpur is dedicated to Lord Rama?",
-        options: ["Ram Mandir", "Deekshabhoomi", "Shri Ganesh Mandir", "Kachner Jain Temple"],
-        correct_option: "Ram Mandir"
+        question: "Which famous mall road is located in Shimla?",
+        options: ["The Mall", "Ridge Road", "Church Road", "Lakkar Bazaar"],
+        correct_option: "The Mall"
     },
     {
-        question: "What is Nagpur known as due to its oranges?",
-        options: ["Orange City", "Fruit City", "Spice City", "Mango City"],
-        correct_option: "Orange City"
+        question: "What is the name of the railway that connects Shimla to Kalka?",
+        options: ["Kalka-Shimla Railway", "Shimla Express", "Himachal Heritage Railway", "Toy Train"],
+        correct_option: "Kalka-Shimla Railway"
     },
     {
-        question: "Which historical monument in Nagpur was built during the British rule?",
-        options: ["Sitabuldi Fort", "Nagpur Central Museum", "Rambagh Palace", "Zero Mile"],
-        correct_option: "Sitabuldi Fort"
+        question: "Which peak is the highest point in Shimla?",
+        options: ["Jakhoo Hill", "Summit Peak", "Chail Peak", "Mashobra Peak"],
+        correct_option: "Jakhoo Hill"
     },
     {
-        question: "What is the name of the largest biodiversity park in Nagpur?",
-        options: ["Futala Biodiversity Park", "Nagpur Biodiversity Park", "Ambazari Park", "Botanical Garden"],
-        correct_option: "Futala Biodiversity Park"
+        question: "What festival is celebrated with great enthusiasm in Shimla, marking the beginning of spring?",
+        options: ["Baisakhi", "Himachali Nawar", "Lohri", "Summer Festival"],
+        correct_option: "Summer Festival"
+    },
+    {
+        question: "Have you taken any steps to reduce plastic usage in your daily life?",
+        options: ["Yes", "No", "Sometimes", "Not Sure"],
+        correct_option: "Yes"
+    },
+    {
+        question: "Have you participated in any local environmental clean-up drives?",
+        options: ["Yes", "No", "Planning to", "I didn’t know about it"],
+        correct_option: "Yes"
+    },
+    {
+        question: "Do you regularly recycle your household waste?",
+        options: ["Yes", "No", "Sometimes", "Not Sure"],
+        correct_option: "Yes"
+    },
+    {
+        question: "Have you contacted a local recycling service in your area?",
+        options: ["Yes", "No", "Planning to", "I didn't know I could"],
+        correct_option: "Yes"
+    },
+    {
+        question: "Do you support local businesses that promote sustainability?",
+        options: ["Yes", "No", "Sometimes", "Not Sure"],
+        correct_option: "Yes"
     }
 ];
+
 
 const Level4Screen = () => {
     const navigation = useNavigation(); // Access navigation
