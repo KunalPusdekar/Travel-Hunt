@@ -42,7 +42,7 @@ export default function LandingScreen({ navigation }) {
         style={styles.animation}
         useNativeDriver={!reducedMotion}  // Use native driver based on reduced motion setting
       />
-      
+
       {/* Animated Start Button */}
       <TouchableOpacity
         onPress={() => navigation.navigate('Main')}
@@ -55,7 +55,17 @@ export default function LandingScreen({ navigation }) {
           end={{ x: 1, y: 1 }}
           style={styles.startButton}
         >
-          <Text style={styles.startButtonText}>Let's Explore</Text>
+          <Text style={styles.TravellerButtonText}>Traveller Entry</Text>
+
+        </LinearGradient>
+        <LinearGradient
+          colors={['#F8B400', '#FF6F61']}  // Sand Yellow to Coral Pink gradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.startButtontwo}
+        >
+
+          <Text style={styles.LocalButtonText}>Local Entry</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -86,10 +96,18 @@ const styles = StyleSheet.create({
   startButton: {
     paddingVertical: 15,
     paddingHorizontal: 50,
+    marginBottom: 20,
     borderRadius: 30,  // Rounded corners for a modern look
     elevation: 5,  // Shadow effect for Android
   },
-  startButtonText: {
+  startButtontwo: {
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    marginTop: 10,
+    borderRadius: 30,  // Rounded corners for a modern look
+    elevation: 5,
+  },
+  TravellerButtonText: {
     color: '#FFFFFF',  // White text for contrast
     fontSize: 20,
     fontWeight: 'bold',
@@ -97,4 +115,12 @@ const styles = StyleSheet.create({
     fontFamily: 'ComicSans',  // Use the font loaded in the previous step
     textTransform: 'uppercase',  // Makes text stand out more
   },
+  LocalButtonText: {
+    color: '#FFFFFF',  // White text for contrast
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontFamily: 'ComicSans',  // Use the font loaded in the previous step
+    textTransform: 'uppercase',
+  }
 });

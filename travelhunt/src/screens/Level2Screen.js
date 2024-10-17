@@ -1,62 +1,113 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Modal, Button } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Modal, Button } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { Video } from 'expo-av';  // Import Expo's Video component
 
 export default function MapScreen() {
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+
+  // Define locations around Varanasi
+  const locations = [
+    {
+      id: 1,
+      title: 'Kashi Vishwanath Temple',
+      description: 'One of the most famous Hindu temples dedicated to Lord Shiva.',
+      latitude: 25.3109,
+      longitude: 83.0076,
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+    },
+    {
+      id: 2,
+      title: 'Sarnath',
+      description: 'An important Buddhist site where Gautama Buddha gave his first sermon.',
+      latitude: 25.3763,
+      longitude: 83.0220,
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+    },
+    {
+      id: 3,
+      title: 'Dasaswamedh Ghat',
+      description: 'One of the main ghats on the Ganges River, famous for its Ganga Aarti.',
+      latitude: 25.3076,
+      longitude: 83.0104,
+      videoSource: require('../../assets/videos/varanasi.mp4'),
+    },
+  ];
 
   const initialRegion = {
-    latitude: 31.0959,  // Latitude of Chadwick Falls, Shimla
-    longitude: 77.1417,  // Longitude of Chadwick Falls, Shimla
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 25.3176,  // Latitude of Varanasi
+    longitude: 82.9739,  // Longitude of Varanasi
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.05,
+  };
+
+  // Function to handle marker press
+  const onMarkerPress = (location) => {
+    setSelectedLocation(location);
+    setModalVisible(true);
   };
 
   return (
     <View style={styles.container}>
       {/* Map View */}
-      <MapView
-        style={styles.map}
-        initialRegion={initialRegion}
-      >
-        <Marker coordinate={{ latitude: 31.0959, longitude: 77.1417 }} onPress={() => setModalVisible(true)} />
+      <MapView style={styles.map} initialRegion={initialRegion}>
+        {locations.map((location) => (
+          <Marker
+            key={location.id}
+            coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+            onPress={() => onMarkerPress(location)}
+          />
+        ))}
       </MapView>
 
       {/* Bottom Box for Attraction Details */}
       <View style={styles.detailsContainer}>
-        <Text style={styles.title}>Attraction Details - Chadwick Falls</Text>
-        <Text style={styles.description}>
-          Chadwick Falls is a hidden gem located near Shimla, offering stunning views and peaceful surroundings.
-          The falls are surrounded by dense forests and are less crowded compared to other tourist spots in Shimla.
-        </Text>
+        {selectedLocation ? (
+          <>
+            <Text style={styles.title}>{selectedLocation.title}</Text>
+            <Text style={styles.description}>{selectedLocation.description}</Text>
 
-        {/* Badge Images */}
-        <View style={styles.badgesContainer}>
-          <Image source={require('../../assets/badges/explorer.png')} style={styles.badge} />
-          <Image source={require('../../assets/badges/explorer.png')} style={styles.badge} />
-          <Image source={require('../../assets/badges/explorer.png')} style={styles.badge} />
-        </View>
+            {/* Badge Images */}
+            <View style={styles.badgesContainer}>
+              <Text style={styles.badge}>🏅</Text>
+              <Text style={styles.badge}>🏅</Text>
+              <Text style={styles.badge}>🏅</Text>
+            </View>
 
-        {/* Start Quest Button */}
-        <TouchableOpacity style={styles.startQuestButton}>
-          <Text style={styles.buttonText}>Start Quest</Text>
-        </TouchableOpacity>
+            {/* Start Quest Button */}
+            <TouchableOpacity style={styles.startQuestButton}>
+              <Text style={styles.buttonText}>Start Quest</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <Text style={styles.placeholderText}>Tap on a marker to view details</Text>
+        )}
       </View>
 
-      {/* Modal for Pop-up Image */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Image source={require('../../assets/images/chadwick_falls.jpeg')} style={styles.modalImage} />
-            <Button title="Close" onPress={() => setModalVisible(false)} color="#008080" />
+      {/* Modal for Pop-up Video */}
+      {selectedLocation && (
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Video
+                source={selectedLocation.videoSource}
+                style={styles.modalVideo}
+                useNativeControls  // This will add play, pause, etc.
+                resizeMode="cover"  // Adjust video size to cover
+                isLooping={true}  // Loop video
+                shouldPlay={true}  // Auto-play video when modal opens
+              />
+              <Button title="Close" onPress={() => setModalVisible(false)} color="#008080" />
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </View>
   );
 }
@@ -102,8 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   badge: {
-    width: 50,
-    height: 50,
+    fontSize: 24,  // Adjust font size for badge emojis
   },
   startQuestButton: {
     backgroundColor: '#FF6F61',  // Coral Pink for button
@@ -129,10 +179,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  modalImage: {
+  modalVideo: {
     width: '100%',
-    height: 300,
-    resizeMode: 'cover',
+    height: 300,  // Adjust the height as needed
     marginBottom: 15,
+  },
+  placeholderText: {
+    fontSize: 16,
+    color: '#2F4F4F',
+    textAlign: 'center',
   },
 });
