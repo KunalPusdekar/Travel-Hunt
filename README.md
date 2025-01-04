@@ -43,7 +43,7 @@ To deploy the application locally using docker, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/ManipalHackathon2024/TechNomads.git
+    git clone https://github.com/KunalPusdekar/Travel-Hunt.git
     cd travelhunt
     ```
 
